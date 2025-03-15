@@ -411,8 +411,12 @@ if page == "Zero Trust Security":
                 })
                 
                 # Extract result values
-                is_anomaly = results['overall_is_anomaly']
-                confidence = results['overall_confidence']
+                overall_verdict = results['overall_verdict']
+                is_anomaly = overall_verdict.startswith("SUSPICIOUS")
+                # Calculate combined confidence from both algorithms
+                if_confidence = results['isolation_forest']['confidence']
+                svm_confidence = results['one_class_svm']['confidence']
+                confidence = (if_confidence + svm_confidence) / 2
                 predicted_label = "Suspicious" if is_anomaly else "Normal"
                 
                 # Display user metrics
