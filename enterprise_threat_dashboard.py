@@ -441,18 +441,33 @@ class EnterpriseThreatDashboard:
             
             with col1:
                 st.markdown("#### Active Threat Actors")
+                # Ensure all arrays have the same length
+                threat_actors_list = st.session_state.stix_intelligence["threat_actors"]
+                actors_count = len(threat_actors_list)
+                
+                # Generate matching confidence and dates arrays
+                confidence_scores = [92, 88, 76, 85, 79][:actors_count]
+                first_seen_dates = ["2023-11-15", "2024-01-03", "2024-02-27", "2024-01-18", "2023-12-10"][:actors_count]
+                
                 threat_actors = pd.DataFrame({
-                    "Actor": st.session_state.stix_intelligence["threat_actors"],
-                    "Confidence": [92, 88, 76],
-                    "First Seen": ["2023-11-15", "2024-01-03", "2024-02-27"]
+                    "Actor": threat_actors_list,
+                    "Confidence": confidence_scores,
+                    "First Seen": first_seen_dates
                 })
                 st.dataframe(threat_actors, use_container_width=True)
             
             with col2:
                 st.markdown("#### Attack Vectors")
+                # Ensure all arrays have the same length
+                attack_vectors_list = st.session_state.stix_intelligence["attack_vectors"]
+                vectors_count = len(attack_vectors_list)
+                
+                # Generate matching frequency array
+                frequencies = ["High", "Medium", "Low", "Critical", "Low"][:vectors_count]
+                
                 attack_vectors = pd.DataFrame({
-                    "Vector": st.session_state.stix_intelligence["attack_vectors"],
-                    "Frequency": ["High", "Medium", "Low"]
+                    "Vector": attack_vectors_list,
+                    "Frequency": frequencies
                 })
                 st.dataframe(attack_vectors, use_container_width=True)
         else:
