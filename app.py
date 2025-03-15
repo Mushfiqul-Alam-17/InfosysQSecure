@@ -163,7 +163,7 @@ def toggle_real_time_monitoring():
 st.sidebar.title("RAIN™ Platform")
 page = st.sidebar.radio(
     "Select a component:",
-    ["Zero Trust Security", "User Behavior Analysis", "AI Threat Intelligence", 
+    ["Zero Trust Security", "User Behavior Analysis", 
      "Quantum Security Visualization", "Enterprise Security Dashboard", "Executive Presentation", 
      "Enterprise Website"]
 )
@@ -557,7 +557,8 @@ if page == "Zero Trust Security":
         else:
             st.info("Please initialize the system by clicking the button above.")
 
-elif page == "AI Threat Intelligence":
+# AI Threat Intelligence section removed from user interface but functionality maintained in the backend
+# elif page == "AI Threat Intelligence":
     st.header("RAIN™ AI-Powered Threat Intelligence")
     
     # We're using Gemini API in the background with the key already configured
