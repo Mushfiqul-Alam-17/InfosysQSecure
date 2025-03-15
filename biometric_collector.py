@@ -188,22 +188,41 @@ class BiometricCollector:
             help="Type normally to generate biometric security data"
         )
         
-        # Add the JavaScript component to detect keystrokes in real-time
+        # Add enhanced JavaScript for immediate keystroke detection and analysis
         st.markdown("""
         <script>
             // Function to capture keystrokes in real-time
             const textArea = parent.document.querySelector('textarea[data-testid="stTextArea"]');
             
             if (textArea) {
-                textArea.addEventListener('keydown', function(e) {
-                    // This will reload the page on every keystroke to update the typing speed
-                    setTimeout(function() {
-                        window.parent.postMessage({
-                            type: "streamlit:setComponentValue", 
-                            value: textArea.value,
-                            dataType: "json"
-                        }, "*");
-                    }, 10);
+                // Capture immediate keystrokes with better event handling
+                ['keydown', 'keyup', 'keypress', 'input'].forEach(eventType => {
+                    textArea.addEventListener(eventType, function(e) {
+                        // This will reload the page on every keystroke to update the typing speed
+                        // Use requestAnimationFrame for better performance
+                        requestAnimationFrame(function() {
+                            // Force rerun with the updated value for immediate analysis
+                            window.parent.postMessage({
+                                type: "streamlit:setComponentValue", 
+                                value: textArea.value,
+                                dataType: "json"
+                            }, "*");
+                        });
+                    });
+                });
+                
+                // Additional focus handling to ensure analysis works when clicking in/out
+                textArea.addEventListener('focus', function(e) {
+                    console.log("Text area focused");
+                });
+                
+                textArea.addEventListener('blur', function(e) {
+                    console.log("Text area blurred - triggering update");
+                    window.parent.postMessage({
+                        type: "streamlit:setComponentValue", 
+                        value: textArea.value,
+                        dataType: "json"
+                    }, "*");
                 });
             }
         </script>

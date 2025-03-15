@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import matplotlib.dates as mdates
 import random
+import json
+import math
 
 class EnterpriseThreatDashboard:
     """
@@ -14,29 +16,76 @@ class EnterpriseThreatDashboard:
     """
     
     def __init__(self):
-        """Initialize the enterprise threat dashboard"""
+        """Initialize the enterprise threat dashboard with advanced simulation capabilities"""
         # Initialize session state variables for enterprise dashboard
         if 'threat_history' not in st.session_state:
             st.session_state.threat_history = []
         if 'network_events' not in st.session_state:
-            # Initialize with some sample network events
+            # Initialize with realistic network events
             st.session_state.network_events = self._generate_sample_network_events()
         if 'security_posture' not in st.session_state:
             st.session_state.security_posture = 85  # Default security score out of 100
         if 'active_threats' not in st.session_state:
             st.session_state.active_threats = []
             
-        # STIX/TAXII Feed Integration
+        # Live Threat Intelligence Simulation
+        if 'last_threat_update' not in st.session_state:
+            st.session_state.last_threat_update = time.time()
+            
+        if 'simulation_data' not in st.session_state:
+            # Predefined threat scenarios for simulation
+            st.session_state.simulation_data = {
+                'threat_scenarios': [
+                    {"type": "Ransomware", "severity": "Critical", "location": "Mumbai", "coords": [19.0760, 72.8777], "actor": "BlackMamba"},
+                    {"type": "Phishing Campaign", "severity": "High", "location": "Bangalore", "coords": [12.9716, 77.5946], "actor": "SilentViper"},
+                    {"type": "Data Exfiltration", "severity": "Critical", "location": "Delhi", "coords": [28.6139, 77.2090], "actor": "CosmicPanda"},
+                    {"type": "DDoS Attack", "severity": "Medium", "location": "Chennai", "coords": [13.0827, 80.2707], "actor": "StormRider"},
+                    {"type": "Zero-day Exploit", "severity": "Critical", "location": "Hyderabad", "coords": [17.3850, 78.4867], "actor": "Equation Group"},
+                    {"type": "Credential Theft", "severity": "High", "location": "Pune", "coords": [18.5204, 73.8567], "actor": "ShadowHammer"},
+                    {"type": "Supply Chain Attack", "severity": "Critical", "location": "Kolkata", "coords": [22.5726, 88.3639], "actor": "EmberBear"},
+                    {"type": "Insider Threat", "severity": "Medium", "location": "Ahmedabad", "coords": [23.0225, 72.5714], "actor": "Internal Actor"},
+                ],
+                'global_hotspots': [
+                    {"location": "Beijing", "coords": [39.9042, 116.4074], "threat_level": 0.8},
+                    {"location": "Moscow", "coords": [55.7558, 37.6173], "threat_level": 0.75},
+                    {"location": "Tehran", "coords": [35.6892, 51.3890], "threat_level": 0.7},
+                    {"location": "Pyongyang", "coords": [39.0392, 125.7625], "threat_level": 0.65},
+                    {"location": "Kiev", "coords": [50.4501, 30.5234], "threat_level": 0.6},
+                    {"location": "San Francisco", "coords": [37.7749, -122.4194], "threat_level": 0.55},
+                    {"location": "London", "coords": [51.5074, -0.1278], "threat_level": 0.5},
+                    {"location": "Singapore", "coords": [1.3521, 103.8198], "threat_level": 0.45},
+                ],
+                'user_profiles': [
+                    {"id": "admin_user", "typing_patterns": [4.2, 4.5, 4.3, 4.6, 4.4], "mouse_patterns": [320, 330, 310, 325, 315]},
+                    {"id": "finance_user", "typing_patterns": [3.8, 3.9, 4.0, 3.7, 3.8], "mouse_patterns": [290, 300, 285, 295, 305]},
+                    {"id": "suspicious_user", "typing_patterns": [8.5, 8.7, 8.9, 8.6, 8.8], "mouse_patterns": [550, 560, 570, 555, 565]},
+                    {"id": "bot_user", "typing_patterns": [1.5, 1.6, 1.5, 1.5, 1.6], "mouse_patterns": [120, 120, 121, 120, 120]},
+                ]
+            }
+        
+        # Auto-update simulation timer
+        if 'auto_update_enabled' not in st.session_state:
+            st.session_state.auto_update_enabled = True
+            
+        # Incident progression for demo
+        if 'incident_phase' not in st.session_state:
+            st.session_state.incident_phase = 0
+            
+        # Hidden demonstration controls
+        if 'demo_controls_visible' not in st.session_state:
+            st.session_state.demo_controls_visible = False
+            
+        # STIX/TAXII Feed Integration Simulation
         if 'stix_taxii_connected' not in st.session_state:
             st.session_state.stix_taxii_connected = False
             
         if 'stix_intelligence' not in st.session_state:
-            # Intelligence data from STIX/TAXII feed
+            # Intelligence data from simulated STIX/TAXII feed
             st.session_state.stix_intelligence = {
-                'threat_actors': ['APT29', 'Lazarus Group', 'Sandworm Team'],
-                'malware_types': ['Ransomware', 'Backdoor', 'Trojan', 'Wiper'],
-                'attack_vectors': ['Phishing', 'Supply Chain', 'Zero-day Exploit'],
-                'industries_targeted': ['Financial', 'Healthcare', 'Critical Infrastructure', 'Government']
+                'threat_actors': ['APT29', 'Lazarus Group', 'Sandworm Team', 'BlackMamba', 'SilentViper', 'CosmicPanda'],
+                'malware_types': ['Ransomware', 'Backdoor', 'Trojan', 'Wiper', 'Cryptojacker', 'Rootkit'],
+                'attack_vectors': ['Phishing', 'Supply Chain', 'Zero-day Exploit', 'Credential Stuffing', 'Man-in-the-Middle'],
+                'industries_targeted': ['Financial', 'Healthcare', 'Critical Infrastructure', 'Government', 'Technology', 'Education']
             }
             
     def _generate_sample_network_events(self):
