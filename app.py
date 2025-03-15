@@ -362,10 +362,12 @@ if page == "Zero Trust Security":
                     'mouse_speed': current_user['mouse_movement_speed']
                 })
 
-                # Extract result values
-                is_anomaly = results['overall_is_anomaly']
-                confidence = results['overall_confidence']
-                predicted_label = "Suspicious" if is_anomaly else "Normal"
+                # Extract result values from the new format
+                is_anomaly = (results['isolation_forest']['is_anomaly'] or 
+                            results['one_class_svm']['is_anomaly'])
+                confidence = max(results['isolation_forest']['confidence'],
+                               results['one_class_svm']['confidence'])
+                predicted_label = results['overall_verdict']
 
                 # Display user metrics
                 metrics_col1, metrics_col2 = st.columns(2)
