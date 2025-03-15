@@ -468,19 +468,21 @@ if page == "Zero Trust Security":
                 # Create scatter plot of all users with current user highlighted
                 fig, ax = plt.subplots(figsize=(5, 5))
                 
-                # Plot normal users
-                ax.scatter(
-                    st.session_state.normal_users['typing_speed'],
-                    st.session_state.normal_users['mouse_movement_speed'],
-                    color='blue', alpha=0.5, label='Normal Users'
-                )
+                # Plot normal users if data exists
+                if st.session_state.normal_users is not None and not st.session_state.normal_users.empty:
+                    ax.scatter(
+                        st.session_state.normal_users['typing_speed'],
+                        st.session_state.normal_users['mouse_movement_speed'],
+                        color='blue', alpha=0.5, label='Normal Users'
+                    )
                 
-                # Plot suspicious users
-                ax.scatter(
-                    st.session_state.suspicious_users['typing_speed'],
-                    st.session_state.suspicious_users['mouse_movement_speed'],
-                    color='red', alpha=0.5, label='Suspicious Users'
-                )
+                # Plot suspicious users if data exists
+                if st.session_state.suspicious_users is not None and not st.session_state.suspicious_users.empty:
+                    ax.scatter(
+                        st.session_state.suspicious_users['typing_speed'],
+                        st.session_state.suspicious_users['mouse_movement_speed'],
+                        color='red', alpha=0.5, label='Suspicious Users'
+                    )
                 
                 # Highlight current user
                 ax.scatter(
@@ -506,9 +508,9 @@ if page == "Zero Trust Security":
             with col1:
                 st.metric("Total Users Monitored", len(all_users))
             with col2:
-                st.metric("Normal Users", len(st.session_state.normal_users))
+                st.metric("Normal Users", len(st.session_state.normal_users) if st.session_state.normal_users is not None else 0)
             with col3:
-                st.metric("Suspicious Users", len(st.session_state.suspicious_users))
+                st.metric("Suspicious Users", len(st.session_state.suspicious_users) if st.session_state.suspicious_users is not None else 0)
                 
             # Display data distributions
             st.subheader("User Behavior Distribution")
@@ -517,8 +519,10 @@ if page == "Zero Trust Security":
             with dist_col1:
                 # Typing speed histogram
                 fig, ax = plt.subplots()
-                ax.hist(st.session_state.normal_users['typing_speed'], alpha=0.5, bins=15, label='Normal Users')
-                ax.hist(st.session_state.suspicious_users['typing_speed'], alpha=0.5, bins=15, label='Suspicious Users')
+                if st.session_state.normal_users is not None and not st.session_state.normal_users.empty:
+                    ax.hist(st.session_state.normal_users['typing_speed'], alpha=0.5, bins=15, label='Normal Users')
+                if st.session_state.suspicious_users is not None and not st.session_state.suspicious_users.empty:
+                    ax.hist(st.session_state.suspicious_users['typing_speed'], alpha=0.5, bins=15, label='Suspicious Users')
                 ax.set_xlabel('Typing Speed (keystrokes/sec)')
                 ax.set_ylabel('Count')
                 ax.set_title('Typing Speed Distribution')
@@ -529,8 +533,10 @@ if page == "Zero Trust Security":
             with dist_col2:
                 # Mouse movement histogram
                 fig, ax = plt.subplots()
-                ax.hist(st.session_state.normal_users['mouse_movement_speed'], alpha=0.5, bins=15, label='Normal Users')
-                ax.hist(st.session_state.suspicious_users['mouse_movement_speed'], alpha=0.5, bins=15, label='Suspicious Users')
+                if st.session_state.normal_users is not None and not st.session_state.normal_users.empty:
+                    ax.hist(st.session_state.normal_users['mouse_movement_speed'], alpha=0.5, bins=15, label='Normal Users')
+                if st.session_state.suspicious_users is not None and not st.session_state.suspicious_users.empty:
+                    ax.hist(st.session_state.suspicious_users['mouse_movement_speed'], alpha=0.5, bins=15, label='Suspicious Users')
                 ax.set_xlabel('Mouse Movement Speed (pixels/sec)')
                 ax.set_ylabel('Count')
                 ax.set_title('Mouse Movement Distribution')

@@ -120,7 +120,7 @@ def create_quantum_animation():
             if progress >= 90 and len(hybrid_y) > 90:
                 hybrid_y_value = hybrid_y[90]
                 ax.scatter([90], [hybrid_y_value], s=200, color=enterprise_colors['accent'], 
-                           alpha=0.9, marker='★', edgecolors='white', linewidths=1.5)
+                           alpha=0.9, marker='*', edgecolors='white', linewidths=1.5)
                 
                 # Add enterprise shield effect
                 ax.text(90, hybrid_y_value + 5, '🛡️ RAIN™ PROTECTION', color=enterprise_colors['accent'],
@@ -282,7 +282,7 @@ def create_quantum_animation():
         ax.scatter([75], [lattice_y[75]], s=180, color=enterprise_colors['lattice'], marker='*', edgecolors='white', linewidths=1)
         ax.text(75, 80, '✓ QUANTUM SECURE', color=enterprise_colors['lattice'], fontsize=12, fontweight='bold', ha='center')
         
-        ax.scatter([90], [hybrid_y[90]], s=200, color=enterprise_colors['accent'], marker='★', edgecolors='white', linewidths=1.5)
+        ax.scatter([90], [hybrid_y[90]], s=200, color=enterprise_colors['accent'], marker='*', edgecolors='white', linewidths=1.5)
         ax.text(90, hybrid_y[90] + 5, '🛡️ RAIN™ PROTECTION', color=enterprise_colors['accent'], fontsize=13, fontweight='bold', ha='center')
         
         # Professional legend
