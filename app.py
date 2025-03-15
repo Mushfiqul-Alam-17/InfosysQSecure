@@ -14,7 +14,7 @@ from quantum_visualization import create_quantum_animation, get_next_animation_f
 from presentation_guide import display_presentation_guide
 from utils import load_logo
 from biometric_collector import BiometricCollector
-#from ai_threat_analyzer import AIThreatAnalyzer # Removed
+from ai_threat_analyzer import AIThreatAnalyzer
 from enterprise_threat_dashboard import EnterpriseThreatDashboard
 
 # Set page configuration
@@ -122,7 +122,7 @@ st.markdown("""
 
 # Initialize key classes
 biometric_collector = BiometricCollector()
-#ai_threat_analyzer = AIThreatAnalyzer() # Removed
+ai_threat_analyzer = AIThreatAnalyzer()
 
 # Create session state variables if they don't exist
 if 'current_user_index' not in st.session_state:
@@ -172,7 +172,7 @@ page = st.sidebar.radio(
 if 'gemini_api_key' not in st.session_state:
     # Use the provided Gemini API key silently in the background
     st.session_state.gemini_api_key = "AIzaSyBWQ2WIgMd0O-ccgW-O7xgLet-dx5uIA4Y"
-    #ai_threat_analyzer.set_api_key(st.session_state.gemini_api_key) # Removed
+    ai_threat_analyzer.set_api_key(st.session_state.gemini_api_key)
 
 # Display logo
 load_logo()
