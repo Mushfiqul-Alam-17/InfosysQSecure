@@ -141,6 +141,9 @@ if 'show_api_key_input' not in st.session_state:
     st.session_state.show_api_key_input = False
 if 'real_time_monitoring' not in st.session_state:
     st.session_state.real_time_monitoring = False
+    
+# Initialize the enterprise threat dashboard
+enterprise_dashboard = EnterpriseThreatDashboard()
 
 def increment_user():
     """Function to increment the current user index when the button is clicked"""
@@ -157,10 +160,11 @@ def toggle_real_time_monitoring():
     st.session_state.real_time_monitoring = not st.session_state.real_time_monitoring
 
 # Sidebar for navigation
-st.sidebar.title("Navigation")
+st.sidebar.title("RAIN™ Platform")
 page = st.sidebar.radio(
     "Select a component:",
-    ["Zero Trust Security Prototype", "Web Surfing Security Simulator", "AI Threat Analysis", "Quantum Security Animation", "Threat Intelligence Dashboard", "Presentation Guide"]
+    ["Zero Trust Security", "User Behavior Analysis", "AI Threat Intelligence", 
+     "Quantum Security Visualization", "Enterprise Security Dashboard", "Executive Presentation"]
 )
 
 # Set the Gemini API key for background threat analysis (not shown to users)
@@ -171,9 +175,12 @@ if 'gemini_api_key' not in st.session_state:
 
 # Display logo
 load_logo()
-st.title("Quantum-Resistant Zero Trust AI Security System")
+st.markdown("""
+<h1 style="text-align: center; color: #0068C9;">RAIN™ Enterprise Security Platform</h1>
+<h3 style="text-align: center; color: #666; margin-top: 0;">Real-Time AI-Driven Threat Interceptor and Neutralizer</h3>
+""", unsafe_allow_html=True)
 
-if page == "Zero Trust Security Prototype":
+if page == "Zero Trust Security":
     st.header("Zero Trust Security Prototype")
     
     # Description of the Zero Trust model
@@ -526,8 +533,8 @@ if page == "Zero Trust Security Prototype":
         else:
             st.info("Please initialize the system by clicking the button above.")
 
-elif page == "AI Threat Analysis":
-    st.header("AI-Powered Threat Analysis")
+elif page == "AI Threat Intelligence":
+    st.header("RAIN™ AI-Powered Threat Intelligence")
     
     # We're using Gemini API in the background with the key already configured
     st.markdown("""
@@ -650,8 +657,8 @@ elif page == "AI Threat Analysis":
     # We have already enabled AI threat analysis with Gemini API in the background
     # This else block shouldn't be reached, but keeping it for completeness
 
-elif page == "Web Surfing Security Simulator":
-    st.header("Web Surfing Security Simulator")
+elif page == "User Behavior Analysis":
+    st.header("RAIN™ User Behavior Analysis")
     
     with st.expander("How does the Web Surfing Security System work?", expanded=False):
         st.markdown("""
