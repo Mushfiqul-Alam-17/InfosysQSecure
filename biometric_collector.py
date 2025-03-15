@@ -129,9 +129,19 @@ class BiometricCollector:
         )
         
         # Add a manual analysis button (this will be used in app.py)
-        analyze_button = st.button("🔒 Analyze Security Biometrics", type="primary", key="analyze_typing")
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            analyze_button = st.button("🔒 Analyze Security Biometrics", type="primary", key="analyze_typing")
+        with col2:
+            # Add reset button to clear previous typing data
+            if st.button("🔄 Reset Analysis", key="reset_typing"):
+                st.session_state.typing_speeds = []
+                st.session_state.keypress_times = []
+                st.session_state.last_typing_speed = 0.0
+                st.session_state.prev_text = ""
+                st.rerun()
         
-        # Display current typing speed if we have data AND the button was pressed
+        # Display current typing speed if we have data
         if st.session_state.typing_speeds:
             avg_speed = sum(st.session_state.typing_speeds) / len(st.session_state.typing_speeds)
             

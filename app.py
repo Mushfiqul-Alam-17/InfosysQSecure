@@ -15,11 +15,12 @@ from presentation_guide import display_presentation_guide
 from utils import load_logo
 from biometric_collector import BiometricCollector
 from ai_threat_analyzer import AIThreatAnalyzer
+from enterprise_threat_dashboard import EnterpriseThreatDashboard
 
 # Set page configuration
 st.set_page_config(
-    page_title="Quantum-Resistant Zero Trust AI Security System",
-    page_icon="🔒",
+    page_title="RAIN™ Enterprise Security Platform",
+    page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
