@@ -665,8 +665,8 @@ elif page == "AI Threat Intelligence":
                 st.markdown(f"""
                 <div style="border-left: 5px solid {threat_color}; padding: 10px; margin-bottom: 15px; background-color: #f9f9f9; border-radius: 5px;">
                     <div style="color: {threat_color}; font-weight: bold;">Threat Level: {threat['threat_level']}</div>
-                    <div style="font-size: 0.8em; color: #666;">Timestamp: {threat['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}</div>
-                    <div>Typing: {threat['typing_speed']:.2f} k/s | Mouse: {threat['mouse_speed']:.2f} px/s</div>
+                    <div style="font-size: 0.8em; color: #666;">Timestamp: {threat['timestamp'] if isinstance(threat['timestamp'], str) else threat['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}</div>
+                    <div>User Activity: {threat.get('typing_speed', 0):.2f} k/s | {threat.get('mouse_speed', 0):.2f} px/s</div>
                 </div>
                 """, unsafe_allow_html=True)
             

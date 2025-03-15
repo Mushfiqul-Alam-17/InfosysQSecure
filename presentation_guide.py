@@ -9,8 +9,8 @@ def display_presentation_guide():
     
     st.markdown("""
     <div style='padding: 15px; background-color: #f0f7ff; border-left: 5px solid #0068C9; margin-bottom: 20px;'>
-    <h3 style='margin-top:0'>Executive Briefing for Infosys</h3>
-    <p>This enterprise-ready presentation guide will help you articulate the RAIN™ value proposition for Infosys leadership, highlighting how this technology aligns with Infosys's strategic security initiatives and market position.</p>
+    <h3 style='margin-top:0'>My Executive Briefing for Infosys</h3>
+    <p>As I present RAIN™ to you today, I'll demonstrate how our quantum-resistant security framework addresses your most critical vulnerabilities while enhancing your strategic market position. Join me on this journey to transform enterprise security.</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -271,7 +271,7 @@ def display_presentation_guide():
     
     st.markdown("""
     <div style='padding: 15px; background-color: #f0f7ff; border-left: 5px solid #0068C9; margin-bottom: 20px;'>
-    <p>This enterprise-grade pitch deck is specifically tailored for Infosys leadership, incorporating their strategic initiatives, market positioning, and client portfolio.</p>
+    <p>I've tailored this executive presentation specifically for you, the Infosys leadership team. My pitch directly addresses your strategic initiatives, market positioning, and the security needs of your premium client portfolio.</p>
     </div>
     """, unsafe_allow_html=True)
     
