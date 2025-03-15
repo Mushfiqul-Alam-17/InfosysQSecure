@@ -34,41 +34,50 @@ class BiometricCollector:
         current_time = time.time()
         st.session_state.keypress_times.append(current_time)
         
-        # Keep only the last 5 seconds of keystrokes for more responsive real-time analysis
-        cutoff_time = current_time - 5  # Reduced from 10 seconds to make it more responsive
+        # Keep only the last 3 seconds of keystrokes for more responsive real-time analysis
+        cutoff_time = current_time - 3  # Reduced from 5 seconds to make it even more responsive
         st.session_state.keypress_times = [t for t in st.session_state.keypress_times if t > cutoff_time]
         
-        # Calculate typing speed (keystrokes per second) even with just a few keystrokes
-        # This makes the analysis much more responsive and immediate
-        if len(st.session_state.keypress_times) > 0:  # Changed from > 1 to > 0 for faster response
-            time_window = current_time - st.session_state.keypress_times[0]
-            if time_window > 0:
-                # Real-time calculation with enhanced responsiveness even for the first few keystrokes
-                new_typing_speed = max(1, len(st.session_state.keypress_times)) / time_window
-                
-                # Apply higher responsiveness settings for the first few keystrokes
-                # to provide immediate feedback, then gradually increase stability
-                if len(st.session_state.typing_speeds) < 2:  # Changed from < 3 to < 2
-                    alpha = 0.9  # Extremely high alpha for immediate feedback on first keystrokes
-                elif len(st.session_state.typing_speeds) < 4:
-                    alpha = 0.7  # Still very responsive for the next few keystrokes
+        # Calculate typing speed (keystrokes per second) with immediate feedback from the first keystroke
+        # This ensures users see an immediate response when they start typing
+        if len(st.session_state.keypress_times) > 0:
+            # For first keystroke, use a reasonable default typing speed with slight randomization
+            if len(st.session_state.keypress_times) == 1:
+                new_typing_speed = 4.0 + np.random.uniform(-0.5, 0.5)
+            else:
+                time_window = current_time - st.session_state.keypress_times[0]
+                if time_window > 0:
+                    # Calculate keystrokes per second with a minimum to avoid division by very small numbers
+                    new_typing_speed = max(1, len(st.session_state.keypress_times) - 1) / max(0.1, time_window)
                 else:
-                    alpha = 0.4  # Slightly higher standard smoothing for overall responsiveness
-                
-                if st.session_state.last_typing_speed > 0:
-                    smoothed_speed = (alpha * new_typing_speed) + ((1 - alpha) * st.session_state.last_typing_speed)
-                else:
-                    smoothed_speed = new_typing_speed
-                
-                st.session_state.last_typing_speed = smoothed_speed
-                st.session_state.typing_speeds.append(smoothed_speed)
-                
-                # Keep only the last 30 speed measurements for better trending
-                if len(st.session_state.typing_speeds) > 30:
-                    st.session_state.typing_speeds.pop(0)
-                
-                # Always update the mouse data when keystroke speed changes
-                self._update_simulated_mouse_data(smoothed_speed)
+                    # Fallback if time window is too small
+                    new_typing_speed = 4.0
+            
+            # Ultra-responsive smoothing for immediate feedback
+            # Higher alpha values give more weight to the most recent typing speed
+            if len(st.session_state.typing_speeds) < 2:
+                alpha = 1.0  # Instant response for first few keystrokes
+            elif len(st.session_state.typing_speeds) < 4:
+                alpha = 0.8  # Very responsive for next few keystrokes
+            else:
+                alpha = 0.5  # More stable but still responsive smoothing
+            
+            # Apply exponential smoothing with high alpha for responsiveness
+            if st.session_state.last_typing_speed > 0:
+                smoothed_speed = (alpha * new_typing_speed) + ((1 - alpha) * st.session_state.last_typing_speed)
+            else:
+                smoothed_speed = new_typing_speed
+            
+            # Update session state
+            st.session_state.last_typing_speed = smoothed_speed
+            st.session_state.typing_speeds.append(smoothed_speed)
+            
+            # Keep only the last 20 speed measurements for better trending and performance
+            if len(st.session_state.typing_speeds) > 20:
+                st.session_state.typing_speeds.pop(0)
+            
+            # Always update the mouse data when keystroke speed changes for correlated security metrics
+            self._update_simulated_mouse_data(smoothed_speed)
     
     def _update_simulated_mouse_data(self, typing_speed):
         """
@@ -199,39 +208,71 @@ class BiometricCollector:
         # Add enhanced JavaScript for immediate keystroke detection and analysis
         st.markdown("""
         <script>
-            // Function to capture keystrokes in real-time
-            const textArea = parent.document.querySelector('textarea[data-testid="stTextArea"]');
+            // Function to set up keystroke detection after DOM is fully loaded
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(setupKeystrokeTracking, 500); // Delay to ensure Streamlit elements are loaded
+            });
             
-            if (textArea) {
-                // Capture immediate keystrokes with better event handling
-                ['keydown', 'keyup', 'keypress', 'input'].forEach(eventType => {
-                    textArea.addEventListener(eventType, function(e) {
-                        // This will reload the page on every keystroke to update the typing speed
-                        // Use requestAnimationFrame for better performance
-                        requestAnimationFrame(function() {
-                            // Force rerun with the updated value for immediate analysis
-                            window.parent.postMessage({
-                                type: "streamlit:setComponentValue", 
-                                value: textArea.value,
-                                dataType: "json"
-                            }, "*");
+            // Also try to set up tracking when this script runs (backup approach)
+            setTimeout(setupKeystrokeTracking, 500);
+            
+            function setupKeystrokeTracking() {
+                // Try multiple selectors to find the text area
+                const textArea = 
+                    document.querySelector('textarea[data-testid="stTextArea"]') || 
+                    parent.document.querySelector('textarea[data-testid="stTextArea"]') ||
+                    document.querySelector('textarea') ||
+                    parent.document.querySelector('textarea');
+                
+                if (textArea) {
+                    console.log("Found text area for keystroke tracking");
+                    
+                    // Remove any existing event listeners
+                    const newTextArea = textArea.cloneNode(true);
+                    textArea.parentNode.replaceChild(newTextArea, textArea);
+                    
+                    // Add keydown event listener for immediate detection
+                    newTextArea.addEventListener('keydown', function(e) {
+                        console.log("Keystroke detected");
+                        // Force update on next animation frame for better performance
+                        window.requestAnimationFrame(function() {
+                            // Submit the form to trigger a rerun
+                            const form = newTextArea.closest('form');
+                            if (form) {
+                                console.log("Submitting form to trigger rerun");
+                                const submitButton = document.createElement('button');
+                                submitButton.type = 'submit';
+                                submitButton.style.display = 'none';
+                                form.appendChild(submitButton);
+                                submitButton.click();
+                                form.removeChild(submitButton);
+                            }
                         });
                     });
-                });
-                
-                // Additional focus handling to ensure analysis works when clicking in/out
-                textArea.addEventListener('focus', function(e) {
-                    console.log("Text area focused");
-                });
-                
-                textArea.addEventListener('blur', function(e) {
-                    console.log("Text area blurred - triggering update");
-                    window.parent.postMessage({
-                        type: "streamlit:setComponentValue", 
-                        value: textArea.value,
-                        dataType: "json"
-                    }, "*");
-                });
+                    
+                    // Also listen for input events as a fallback
+                    newTextArea.addEventListener('input', function(e) {
+                        console.log("Input event detected");
+                        // Auto-submit after a short delay
+                        setTimeout(function() {
+                            const form = newTextArea.closest('form');
+                            if (form) {
+                                const submitButton = document.createElement('button');
+                                submitButton.type = 'submit';
+                                submitButton.style.display = 'none';
+                                form.appendChild(submitButton);
+                                submitButton.click();
+                                form.removeChild(submitButton);
+                            }
+                        }, 100);
+                    });
+                    
+                    console.log("Keystroke tracking setup complete");
+                } else {
+                    console.log("Text area not found, will retry");
+                    // Retry after a delay if text area not found
+                    setTimeout(setupKeystrokeTracking, 1000);
+                }
             }
         </script>
         """, unsafe_allow_html=True)
