@@ -672,50 +672,124 @@ class AIPresentationGenerator:
         return html_file
 
 def display_ai_video_presentation():
-    """Display the AI-generated video presentation explaining RAIN™ security features"""
+    """Display a website redirect interface for RAIN Enterprise Security"""
     st.markdown("""
     <div style="text-align: center; padding: 20px; background-color: #f0f7ff; border-radius: 10px; margin-bottom: 20px;">
-        <h1 style="color: #0068C9;">RAIN™ Executive Video Presentation</h1>
-        <p style="font-style: italic;">This AI-generated presentation explains RAIN™ security features in first-person narrative style for executive audiences.</p>
+        <h1 style="color: #0068C9;">RAIN™ Enterprise Website</h1>
+        <p style="font-style: italic;">Access the full RAIN™ Enterprise Security Platform website for comprehensive information and resources.</p>
     </div>
     """, unsafe_allow_html=True)
     
-    col1, col2, col3 = st.columns([1, 2, 1])
+    col1, col2 = st.columns([3, 1])
+    
+    with col1:
+        st.markdown("""
+        ### RAIN™ Enterprise Portal
+        
+        Our enterprise website provides comprehensive information and resources about RAIN™ Enterprise Security Platform:
+        
+        * 🏢 **Company Information** - Learn about our mission and leadership
+        * 📊 **Case Studies** - See how RAIN™ has transformed security for Fortune 500 companies
+        * 📈 **ROI Calculator** - Estimate your potential cost savings with RAIN™
+        * 📑 **White Papers** - Download technical documentation and research
+        * 🛠️ **API Documentation** - Integration guides for developers
+        * 📞 **Enterprise Support** - 24/7 dedicated support for enterprise customers
+        
+        Access the full experience by clicking the button to visit the official website.
+        """)
+        
+        # Mock website URL (would be a real URL in production)
+        website_url = "https://rain-enterprise-security.com" 
+        
+        st.markdown("""
+        ### Preview
+        
+        <div style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; background-color: #fff; margin-top: 20px;">
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <div style="background-color: #0068C9; color: white; border-radius: 5px; padding: 10px; margin-right: 15px;">
+                    <span style="font-size: 24px; font-weight: bold;">RAIN™</span>
+                </div>
+                <div>
+                    <span style="color: #333; font-weight: bold; font-size: 18px;">Enterprise Security Platform</span>
+                </div>
+                <div style="margin-left: auto;">
+                    <span style="padding: 8px 12px; background-color: #f1f1f1; border-radius: 5px; margin-right: 10px;">Login</span>
+                    <span style="padding: 8px 12px; background-color: #0068C9; color: white; border-radius: 5px;">Get Started</span>
+                </div>
+            </div>
+            <div style="height: 200px; background: linear-gradient(135deg, #0068C9, #00C9FF); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold; margin-bottom: 20px;">
+                Enterprise Security for the AI Age
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                <div style="width: 30%; height: 80px; background-color: #f5f7fa; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center;">
+                        <div style="font-weight: bold; color: #0068C9;">Zero Trust</div>
+                        <div style="font-size: 12px; color: #666;">Identity Management</div>
+                    </div>
+                </div>
+                <div style="width: 30%; height: 80px; background-color: #f5f7fa; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center;">
+                        <div style="font-weight: bold; color: #0068C9;">AI Analysis</div>
+                        <div style="font-size: 12px; color: #666;">Threat Intelligence</div>
+                    </div>
+                </div>
+                <div style="width: 30%; height: 80px; background-color: #f5f7fa; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center;">
+                        <div style="font-weight: bold; color: #0068C9;">Quantum Security</div>
+                        <div style="font-size: 12px; color: #666;">Future-Proof Protection</div>
+                    </div>
+                </div>
+            </div>
+            <div style="color: #999; font-size: 12px; text-align: center; margin-top: 15px;">
+                © 2025 RAIN Enterprise Security, Inc. All rights reserved.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col2:
-        if st.button("🎬 Generate AI Video Presentation", type="primary"):
-            # Create and generate presentation
-            presentation = AIPresentationGenerator()
-            html_file = presentation.generate_presentation(duration=15, fps=5)
+        st.markdown("### Website Access")
+        if st.button("🌐 Visit RAIN™ Website", type="primary"):
+            st.success("Redirecting to RAIN™ Enterprise Website...")
+            # In a real app, this would redirect to the actual website
+            # For demonstration purposes, we'll just show a success message
             
-            # Display success message with link to open
-            st.success(f"AI video presentation successfully generated! You can now view it.")
+            # Show simulated redirect animation
+            progress_text = "Redirecting to external website..."
+            progress_bar = st.progress(0)
+            for i in range(100):
+                # Update progress bar
+                progress_bar.progress(i + 1)
+                time.sleep(0.01)
             
-            # Create a downloadable link
-            with open(html_file, "rb") as file:
-                st.download_button(
-                    label="📥 Download Presentation",
-                    data=file,
-                    file_name="rain_executive_presentation.html",
-                    mime="text/html"
-                )
-            
-            # Display the presentation in an iframe
-            st.markdown("### Preview:")
             st.markdown(f"""
-            <iframe src="{html_file}" width="100%" height="600" style="border: none; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></iframe>
+            <div style="padding: 20px; background-color: #f8f9fa; border-radius: 10px; margin-top: 20px; text-align: center;">
+                <p>If you're not automatically redirected, please click:</p>
+                <a href="{website_url}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #0068C9; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Open Website</a>
+            </div>
             """, unsafe_allow_html=True)
         
-        else:
-            st.info("Click the button above to generate an AI-powered executive presentation that explains RAIN™ security features in first-person narrative style.")
-            
-            # Show a preview of what will be generated
-            st.markdown("### Preview of Generated Content:")
-            st.markdown("""
-            * 📊 **Executive-focused visuals** suitable for C-level presentations
-            * 🎭 **First-person narrative style** for authentic delivery
-            * 🔐 **Detailed explanation** of RAIN™ quantum-resistant security features
-            * 📈 **ROI and implementation timeline** with enterprise metrics
-            * 💼 **Infosys branding** integrated throughout the presentation
-            * 🖥️ **Animated HTML format** for easy sharing and viewing
-            """)
+        # Add supporting info section
+        st.markdown("### Why Visit Our Website?")
+        st.markdown("""
+        * 🔄 **Always Up-to-Date** - Latest product information and security advisories
+        * 🎯 **Personalized Experience** - Content tailored to your industry and needs
+        * 💬 **Live Chat Support** - Instant assistance from security experts
+        * 🎓 **Training Resources** - Self-paced courses and certification paths
+        * 🔍 **Detailed Documentation** - Complete technical specifications
+        """)
+        
+        st.markdown("### Related Resources")
+        # Create styled link buttons for related resources
+        for resource, icon in [
+            ("Security Blog", "📰"),
+            ("Customer Portal", "🔑"),
+            ("Partner Network", "🤝"),
+            ("Developer Hub", "👨‍💻")
+        ]:
+            st.markdown(f"""
+            <div style="margin-bottom: 8px;">
+                <a href="#" style="display: block; padding: 8px 12px; background-color: #f5f7fa; border-radius: 5px; color: #333; text-decoration: none; font-size: 14px;">
+                    {icon} {resource}
+                </a>
+            </div>
+            """, unsafe_allow_html=True)

@@ -165,7 +165,7 @@ page = st.sidebar.radio(
     "Select a component:",
     ["Zero Trust Security", "User Behavior Analysis", "AI Threat Intelligence", 
      "Quantum Security Visualization", "Enterprise Security Dashboard", "Executive Presentation", 
-     "AI Video Presentation"]
+     "Enterprise Website"]
 )
 
 # Set the Gemini API key for background threat analysis (not shown to users)
