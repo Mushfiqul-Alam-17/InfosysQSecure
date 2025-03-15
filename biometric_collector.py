@@ -30,11 +30,11 @@ class BiometricCollector:
             st.session_state.last_mouse_record_time = time.time()
     
     def track_keystroke(self):
-        """Record a keystroke event and calculate typing speed"""
+        """Record a keystroke event and calculate typing speed in real-time"""
         current_time = time.time()
         st.session_state.keypress_times.append(current_time)
         
-        # Keep only the last 10 seconds of keystrokes
+        # Keep only the last 10 seconds of keystrokes for real-time analysis
         cutoff_time = current_time - 10
         st.session_state.keypress_times = [t for t in st.session_state.keypress_times if t > cutoff_time]
         
@@ -42,13 +42,70 @@ class BiometricCollector:
         if len(st.session_state.keypress_times) > 1:
             time_window = current_time - st.session_state.keypress_times[0]
             if time_window > 0:
-                typing_speed = (len(st.session_state.keypress_times) - 1) / time_window
-                st.session_state.last_typing_speed = typing_speed
-                st.session_state.typing_speeds.append(typing_speed)
+                # Real-time calculation with exponential smoothing for more stability
+                new_typing_speed = (len(st.session_state.keypress_times) - 1) / time_window
                 
-                # Keep only the last 20 speed measurements
-                if len(st.session_state.typing_speeds) > 20:
+                # Apply smoothing to avoid erratic jumps
+                alpha = 0.3  # Smoothing factor (0-1): lower = more smoothing
+                if st.session_state.last_typing_speed > 0:
+                    smoothed_speed = (alpha * new_typing_speed) + ((1 - alpha) * st.session_state.last_typing_speed)
+                else:
+                    smoothed_speed = new_typing_speed
+                
+                st.session_state.last_typing_speed = smoothed_speed
+                st.session_state.typing_speeds.append(smoothed_speed)
+                
+                # Keep only the last 30 speed measurements for better trending
+                if len(st.session_state.typing_speeds) > 30:
                     st.session_state.typing_speeds.pop(0)
+                
+                # Simulate corresponding mouse movement for comprehensive analysis
+                self._update_simulated_mouse_data(smoothed_speed)
+    
+    def _update_simulated_mouse_data(self, typing_speed):
+        """
+        Update mouse movement data based on typing speed for real-time analysis.
+        This creates a realistic correlation between typing and mouse movements.
+        
+        Parameters:
+        -----------
+        typing_speed: float
+            The current typing speed to correlate with mouse movement
+        """
+        current_time = time.time()
+        
+        # Only update mouse data periodically to avoid excessive calculations
+        if current_time - st.session_state.last_mouse_record_time > 0.5:  # Update every 0.5 seconds
+            st.session_state.last_mouse_record_time = current_time
+            
+            # Create a realistic correlation between typing and mouse movement
+            # Faster typists tend to have faster mouse movements, but with variation
+            base_mouse_speed = typing_speed * 70  # Basic correlation factor
+            
+            # Add natural variation to simulate realistic patterns
+            variation = np.random.normal(0, 20)  # Normal distribution variation
+            
+            # Introduce occasional independent variations for more realism
+            if np.random.random() < 0.1:  # 10% chance of significant variation
+                variation = np.random.uniform(-100, 100)
+                
+            # Calculate new mouse speed with boundaries
+            new_mouse_speed = max(50, base_mouse_speed + variation)  # Minimum 50 px/sec
+            
+            # Apply smoothing for stability
+            alpha = 0.2  # Smoothing factor (0-1): lower = more smoothing
+            if st.session_state.last_mouse_speed > 0:
+                smoothed_mouse_speed = (alpha * new_mouse_speed) + ((1 - alpha) * st.session_state.last_mouse_speed)
+            else:
+                smoothed_mouse_speed = new_mouse_speed
+            
+            # Update session state
+            st.session_state.last_mouse_speed = smoothed_mouse_speed
+            st.session_state.mouse_speeds.append(smoothed_mouse_speed)
+            
+            # Keep the history limited
+            if len(st.session_state.mouse_speeds) > 30:
+                st.session_state.mouse_speeds.pop(0)
     
     def capture_typing_data(self):
         """Capture typing data using a Streamlit text area with JavaScript callback"""
