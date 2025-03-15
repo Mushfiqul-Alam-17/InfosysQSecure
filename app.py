@@ -7,11 +7,10 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from io import BytesIO
 import time
-import openai
 from datetime import datetime
 
 from zero_trust import generate_user_data, check_user_behavior
-from quantum_visualization import create_quantum_animation
+from quantum_visualization import create_quantum_animation, get_next_animation_frame
 from presentation_guide import display_presentation_guide
 from utils import load_logo
 from biometric_collector import BiometricCollector
@@ -163,18 +162,11 @@ page = st.sidebar.radio(
     ["Zero Trust Security Prototype", "Web Surfing Security Simulator", "AI Threat Analysis", "Quantum Security Animation", "Threat Intelligence Dashboard", "Presentation Guide"]
 )
 
-# API Key Configuration in sidebar
-with st.sidebar.expander("AI Integration Settings", expanded=False):
-    if st.button("Configure OpenAI API Key"):
-        toggle_api_key_input()
-    
-    if st.session_state.show_api_key_input:
-        api_key = st.text_input("Enter OpenAI API Key", 
-                               type="password", 
-                               help="This is required for AI threat analysis. Your API key is stored only in this session.")
-        if api_key:
-            ai_threat_analyzer.set_api_key(api_key)
-            st.success("API key configured successfully!")
+# Set the Gemini API key for background threat analysis (not shown to users)
+if 'gemini_api_key' not in st.session_state:
+    # Use the provided Gemini API key silently in the background
+    st.session_state.gemini_api_key = "AIzaSyBWQ2WIgMd0O-ccgW-O7xgLet-dx5uIA4Y"
+    ai_threat_analyzer.set_api_key(st.session_state.gemini_api_key)
 
 # Display logo
 load_logo()
@@ -308,8 +300,8 @@ if page == "Zero Trust Security Prototype":
                                     
                                     # Display the full analysis
                                     st.markdown(threat_analysis['analysis'])
-                        else:
-                            st.info("Configure an OpenAI API key in the sidebar to enable AI threat analysis.")
+                        # AI threat analysis is already enabled with Gemini API
+                        # The empty else block is intentional - no message needed since API key is provided automatically
                     
                     with col2:
                         # Display the comparison plot
@@ -536,139 +528,126 @@ if page == "Zero Trust Security Prototype":
 elif page == "AI Threat Analysis":
     st.header("AI-Powered Threat Analysis")
     
-    if ai_threat_analyzer.has_api_key():
-        st.markdown("""
-        This component uses OpenAI's language models to provide expert analysis of security threats
-        detected by the Zero Trust system. It combines the machine learning detection results with
-        AI-powered threat intelligence to deliver:
+    # We're using Gemini API in the background with the key already configured
+    st.markdown("""
+    This component uses Google's Gemini AI to provide expert analysis of security threats
+    detected by the Zero Trust system. It combines the machine learning detection results with
+    AI-powered threat intelligence to deliver:
+    
+    1. Detailed threat assessment
+    2. Threat level classification 
+    3. Specific recommendations for security response
+    """)
+    
+    # Create columns for the main components
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        st.subheader("Real-time Typing Analysis for Threat Detection")
         
-        1. Detailed threat assessment
-        2. Threat level classification
-        3. Specific recommendations for security response
-        """)
+        # Capture real typing data
+        text_input = biometric_collector.capture_typing_data()
         
-        # Create columns for the main components
-        col1, col2 = st.columns([2, 1])
-        
-        with col1:
-            st.subheader("Real-time Typing Analysis for Threat Detection")
+        if len(st.session_state.typing_speeds) > 0:
+            # We have some typing data, so we can analyze it
             
-            # Capture real typing data
-            text_input = biometric_collector.capture_typing_data()
+            # Generate comparison data (if needed)
+            if st.session_state.normal_users is None or st.session_state.suspicious_users is None:
+                normal_users, suspicious_users = biometric_collector.simulate_mouse_data(100, 10)
+                st.session_state.normal_users = normal_users
+                st.session_state.suspicious_users = suspicious_users
             
-            if len(st.session_state.typing_speeds) > 0:
-                # We have some typing data, so we can analyze it
-                
-                # Generate comparison data (if needed)
-                if st.session_state.normal_users is None or st.session_state.suspicious_users is None:
-                    normal_users, suspicious_users = biometric_collector.simulate_mouse_data(100, 10)
-                    st.session_state.normal_users = normal_users
-                    st.session_state.suspicious_users = suspicious_users
-                
-                # Get current typing speed
-                current_typing_speed = st.session_state.last_typing_speed
-                
-                if st.button("Run AI Threat Analysis", type="primary"):
-                    with st.spinner("Running comprehensive AI threat assessment..."):
-                        # Run comparison of algorithms
-                        results = biometric_collector.compare_algorithms(
-                            current_typing_speed,
-                            st.session_state.normal_users,
-                            st.session_state.suspicious_users
-                        )
-                        
-                        # Get AI analysis
-                        threat_analysis = ai_threat_analyzer.analyze_threat(
-                            results['user_data'], 
-                            {
-                                'isolation_forest': results['isolation_forest'],
-                                'one_class_svm': results['one_class_svm']
-                            }
-                        )
-                        
-                        if 'error' in threat_analysis:
-                            st.error(f"AI analysis error: {threat_analysis['error']}")
-                        else:
-                            # Display threat assessment
-                            st.subheader("AI Security Assessment")
-                            
-                            # Display threat level with appropriate styling
-                            threat_level = threat_analysis['threat_level']
-                            if threat_level in ["Critical", "High"]:
-                                st.markdown(f"""
-                                <div class="alert-box error">
-                                <h3>⚠️ Threat Level: {threat_level}</h3>
-                                </div>
-                                """, unsafe_allow_html=True)
-                            elif threat_level == "Medium":
-                                st.markdown(f"""
-                                <div class="alert-box warning">
-                                <h3>⚠️ Threat Level: {threat_level}</h3>
-                                </div>
-                                """, unsafe_allow_html=True)
-                            else:
-                                st.markdown(f"""
-                                <div class="alert-box success">
-                                <h3>✓ Threat Level: {threat_level}</h3>
-                                </div>
-                                """, unsafe_allow_html=True)
-                            
-                            # Display the full analysis
-                            st.markdown("### Expert Analysis")
-                            st.markdown(threat_analysis['analysis'])
-                            
-                            # Display comparison chart
-                            st.subheader("Behavior Analysis Visualization")
-                            st.pyplot(results['plot'])
-            else:
-                st.info("Start typing in the box above to generate behavior patterns for analysis.")
-        
-        with col2:
-            st.subheader("AI Security Feed")
+            # Get current typing speed
+            current_typing_speed = st.session_state.last_typing_speed
             
-            # Display threat history if available
-            if st.session_state.threat_history:
-                st.markdown("### Recent Threat Assessments")
-                
-                for i, threat in enumerate(reversed(st.session_state.threat_history[:5])):
-                    # Create styled threat cards
-                    threat_color = {
-                        "Critical": "#ff1744",
-                        "High": "#ff5252",
-                        "Medium": "#ff9100",
-                        "Low": "#ffeb3b",
-                        "None": "#4caf50",
-                    }.get(threat['threat_level'], "#9e9e9e")
+            if st.button("Run AI Threat Analysis", type="primary"):
+                with st.spinner("Running comprehensive AI threat assessment..."):
+                    # Run comparison of algorithms
+                    results = biometric_collector.compare_algorithms(
+                        current_typing_speed,
+                        st.session_state.normal_users,
+                        st.session_state.suspicious_users
+                    )
                     
-                    st.markdown(f"""
-                    <div style="border-left: 5px solid {threat_color}; padding: 10px; margin-bottom: 15px; background-color: #f9f9f9; border-radius: 5px;">
-                        <div style="color: {threat_color}; font-weight: bold;">Threat Level: {threat['threat_level']}</div>
-                        <div style="font-size: 0.8em; color: #666;">Timestamp: {threat['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}</div>
-                        <div>Typing: {threat['typing_speed']:.2f} k/s | Mouse: {threat['mouse_speed']:.2f} px/s</div>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    # Get AI analysis
+                    threat_analysis = ai_threat_analyzer.analyze_threat(
+                        results['user_data'], 
+                        {
+                            'isolation_forest': results['isolation_forest'],
+                            'one_class_svm': results['one_class_svm']
+                        }
+                    )
+                    
+                    if 'error' in threat_analysis:
+                        st.error(f"AI analysis error: {threat_analysis['error']}")
+                    else:
+                        # Display threat assessment
+                        st.subheader("AI Security Assessment")
+                        
+                        # Display threat level with appropriate styling
+                        threat_level = threat_analysis['threat_level']
+                        if threat_level in ["Critical", "High"]:
+                            st.markdown(f"""
+                            <div class="alert-box error">
+                            <h3>⚠️ Threat Level: {threat_level}</h3>
+                            </div>
+                            """, unsafe_allow_html=True)
+                        elif threat_level == "Medium":
+                            st.markdown(f"""
+                            <div class="alert-box warning">
+                            <h3>⚠️ Threat Level: {threat_level}</h3>
+                            </div>
+                            """, unsafe_allow_html=True)
+                        else:
+                            st.markdown(f"""
+                            <div class="alert-box success">
+                            <h3>✓ Threat Level: {threat_level}</h3>
+                            </div>
+                            """, unsafe_allow_html=True)
+                        
+                        # Display the full analysis
+                        st.markdown("### Expert Analysis")
+                        st.markdown(threat_analysis['analysis'])
+                        
+                        # Display comparison chart
+                        st.subheader("Behavior Analysis Visualization")
+                        st.pyplot(results['plot'])
+        else:
+            st.info("Start typing in the box above to generate behavior patterns for analysis.")
+    
+    with col2:
+        st.subheader("AI Security Feed")
+        
+        # Display threat history if available
+        if st.session_state.threat_history:
+            st.markdown("### Recent Threat Assessments")
+            
+            for i, threat in enumerate(reversed(st.session_state.threat_history[:5])):
+                # Create styled threat cards
+                threat_color = {
+                    "Critical": "#ff1744",
+                    "High": "#ff5252",
+                    "Medium": "#ff9100",
+                    "Low": "#ffeb3b",
+                    "None": "#4caf50",
+                }.get(threat['threat_level'], "#9e9e9e")
                 
-                # Show a button to view full threat history
-                if st.button("View Full Threat Dashboard"):
-                    st.session_state.last_page = page
-                    st.rerun()  # This will rerun the app and go to Threat Dashboard
-            else:
-                st.info("No threat assessments yet. Run the AI Threat Analysis to build a history.")
-    else:
-        st.warning("OpenAI API key is required for AI Threat Analysis. Please configure it in the sidebar.")
-        
-        st.markdown("""
-        ### Why AI Threat Analysis?
-        
-        The AI component enhances the Zero Trust system by:
-        
-        1. **Providing expert context** to machine learning anomaly detection
-        2. **Explaining the security implications** of unusual behavior patterns
-        3. **Recommending specific security responses** based on threat assessment
-        4. **Creating an audit trail** of security events and decisions
-        
-        To enable this feature, provide your OpenAI API key in the sidebar settings.
-        """)
+                st.markdown(f"""
+                <div style="border-left: 5px solid {threat_color}; padding: 10px; margin-bottom: 15px; background-color: #f9f9f9; border-radius: 5px;">
+                    <div style="color: {threat_color}; font-weight: bold;">Threat Level: {threat['threat_level']}</div>
+                    <div style="font-size: 0.8em; color: #666;">Timestamp: {threat['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}</div>
+                    <div>Typing: {threat['typing_speed']:.2f} k/s | Mouse: {threat['mouse_speed']:.2f} px/s</div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            # Show a button to view full threat history
+            if st.button("View Full Threat Dashboard"):
+                st.session_state.last_page = page
+                st.rerun()  # This will rerun the app and go to Threat Dashboard
+        else:
+            st.info("No threat assessments yet. Run the AI Threat Analysis to build a history.")
+    # We have already enabled AI threat analysis with Gemini API in the background
+    # This else block shouldn't be reached, but keeping it for completeness
 
 elif page == "Web Surfing Security Simulator":
     st.header("Web Surfing Security Simulator")

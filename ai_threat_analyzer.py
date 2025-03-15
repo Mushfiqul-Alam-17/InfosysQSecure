@@ -5,11 +5,12 @@ import time
 import matplotlib.pyplot as plt
 from datetime import datetime
 import random
+import google.generativeai as genai
 
 class AIThreatAnalyzer:
     """
-    Class for analyzing security threats using an advanced rule-based system
-    with intelligent threat classification.
+    Class for analyzing security threats using Google's Gemini AI model.
+    This provides real intelligence and recommendations based on detected anomalies.
     """
     
     def __init__(self):
@@ -34,7 +35,7 @@ class AIThreatAnalyzer:
             'very_fast': 800      # Very fast mouse: >600 pixels/sec
         }
         
-        # Knowledge base for threat analysis
+        # Fallback threat patterns if AI is not available
         self.threat_patterns = {
             'bot_pattern': {
                 'description': 'Automated bot or script activity',
@@ -82,37 +83,22 @@ class AIThreatAnalyzer:
             }
         }
         
-        # Response templates for different threat patterns
-        self.response_templates = {
-            'Critical': [
-                "Threat Level: Critical\n\nAnalysis: {description} detected with high confidence. The observed behavior shows {typing_desc} typing speed ({typing_speed:.2f} k/s) and {mouse_desc} mouse movements ({mouse_speed:.2f} px/s), which is highly consistent with automated tools or scripts. Both detection algorithms flagged this as suspicious activity with high confidence scores.\n\nRecommended Actions:\n1. Immediately block access and terminate current session\n2. Require additional out-of-band authentication\n3. Conduct full security audit of account activities\n4. Monitor for similar patterns across other accounts",
-                "Threat Level: Critical\n\nAnalysis: Possible {description} detected. The behavior exhibits abnormal patterns with {typing_desc} typing ({typing_speed:.2f} k/s) combined with {mouse_desc} mouse movement ({mouse_speed:.2f} px/s). This creates a highly suspicious digital fingerprint that doesn't match human behavior profiles. Both algorithms confirm suspicious activity.\n\nRecommended Actions:\n1. Activate session recording for forensic analysis\n2. Implement IP blocking for current session\n3. Escalate to security team for immediate investigation\n4. Apply strict resource access limitations"
-            ],
-            'High': [
-                "Threat Level: High\n\nAnalysis: Potential {description} identified. The system detected {typing_desc} typing speed ({typing_speed:.2f} k/s) with {mouse_desc} mouse movements ({mouse_speed:.2f} px/s), creating a behavioral pattern consistent with unauthorized access attempts. Multiple detection algorithms confirmed this anomalous behavior pattern.\n\nRecommended Actions:\n1. Trigger step-up authentication immediately\n2. Restrict access to sensitive resources\n3. Monitor all activities in real-time\n4. Consider temporary account suspension if behavior continues",
-                "Threat Level: High\n\nAnalysis: Suspicious user behavior indicates possible {description}. The combination of {typing_desc} typing ({typing_speed:.2f} k/s) and {mouse_desc} mouse movement ({mouse_speed:.2f} px/s) represents a deviation from established behavioral baselines. Both detection algorithms indicate high likelihood of unauthorized access.\n\nRecommended Actions:\n1. Implement MFA challenge immediately\n2. Restrict session privileges to minimum required\n3. Begin security incident response procedures\n4. Log complete session activity for further analysis"
-            ],
-            'Medium': [
-                "Threat Level: Medium\n\nAnalysis: {description} detected. The user shows {typing_desc} typing speed ({typing_speed:.2f} k/s) and {mouse_desc} mouse movement ({mouse_speed:.2f} px/s), which differs from typical behavioral patterns. This combination was flagged by at least one of our detection algorithms as potentially suspicious activity.\n\nRecommended Actions:\n1. Request additional verification\n2. Increase monitoring level for this session\n3. Apply least-privilege access restrictions temporarily",
-                "Threat Level: Medium\n\nAnalysis: Potential {description} identified with moderate confidence. The behavioral metrics show {typing_desc} typing ({typing_speed:.2f} k/s) with {mouse_desc} mouse movement ({mouse_speed:.2f} px/s), creating an unusual pattern. This has triggered alerts in our anomaly detection system and requires attention.\n\nRecommended Actions:\n1. Implement passive session monitoring\n2. Prepare additional authentication factors if user attempts privileged actions\n3. Log this event for security review"
-            ],
-            'Low': [
-                "Threat Level: Low\n\nAnalysis: Low-risk {description} detected. The user exhibits {typing_desc} typing speed ({typing_speed:.2f} k/s) and {mouse_desc} mouse movement ({mouse_speed:.2f} px/s), which shows minor deviations from normal patterns. This created a low-confidence alert in one detection algorithm but is likely benign activity.\n\nRecommended Actions:\n1. Continue normal monitoring protocols\n2. No immediate action required\n3. Include data point in behavioral baseline updates",
-                "Threat Level: Low\n\nAnalysis: Minor anomaly detected suggesting possible {description}. The behavior shows {typing_desc} typing ({typing_speed:.2f} k/s) combined with {mouse_desc} mouse movements ({mouse_speed:.2f} px/s). While slightly unusual, this pattern doesn't strongly indicate malicious intent and only triggered a low-confidence alert.\n\nRecommended Actions:\n1. Maintain standard security protocols\n2. Add behavior to user profile for future comparison\n3. No disruption to user experience needed"
-            ],
-            'None': [
-                "Threat Level: None\n\nAnalysis: Normal user behavior confirmed. The user demonstrates {typing_desc} typing speed ({typing_speed:.2f} k/s) and {mouse_desc} mouse movement ({mouse_speed:.2f} px/s), which aligns with expected behavioral patterns. No anomalies were detected by either algorithm, indicating legitimate user activity.\n\nRecommended Actions:\n1. Continue standard Zero Trust verification\n2. Maintain regular authentication renewal cycle\n3. Update behavioral baseline with this interaction data",
-                "Threat Level: None\n\nAnalysis: Legitimate user activity verified with high confidence. The behavioral metrics show {typing_desc} typing ({typing_speed:.2f} k/s) with {mouse_desc} mouse movement ({mouse_speed:.2f} px/s), creating a normal digital fingerprint. Both detection algorithms confirm this behavior matches expected patterns.\n\nRecommended Actions:\n1. Proceed with normal access privileges\n2. Apply standard Zero Trust verification at privilege escalation points\n3. No additional security measures needed"
-            ]
-        }
-    
+        # Store API key
+        self.api_key = None
+        
     def set_api_key(self, api_key):
-        """Maintain API key method for compatibility"""
-        pass
+        """Set the Gemini API key"""
+        self.api_key = api_key
+        # Configure Gemini AI if API key is provided
+        try:
+            if self.api_key:
+                genai.configure(api_key=self.api_key)
+        except Exception as e:
+            st.error(f"Error configuring Gemini AI: {str(e)}")
     
     def has_api_key(self):
-        """Always return True as we don't need an API key anymore"""
-        return True
+        """Check if an API key has been provided"""
+        return self.api_key is not None and self.api_key.strip() != ""
     
     def get_typing_category(self, typing_speed):
         """Categorize typing speed based on thresholds"""
@@ -142,8 +128,7 @@ class AIThreatAnalyzer:
     
     def analyze_threat(self, user_data, detection_results):
         """
-        Analyze the threat using an advanced rule-based system with intelligent
-        threat classification and provide an expert assessment
+        Analyze the threat using Google's Gemini AI model and provide an expert assessment
         
         Parameters:
         -----------
@@ -169,75 +154,80 @@ class AIThreatAnalyzer:
             typing_category, typing_desc = self.get_typing_category(typing_speed)
             mouse_category, mouse_desc = self.get_mouse_category(mouse_speed)
             
-            # Check if any algorithm found suspicious behavior
-            if_suspicious = isolation_forest_result['is_anomaly']
-            svm_suspicious = one_class_svm_result['is_anomaly']
-            one_algorithm_suspicious = if_suspicious or svm_suspicious
-            both_algorithms_suspicious = if_suspicious and svm_suspicious
-            
-            # Determine consistency of behavior (synthetic measure for now)
-            consistency = 'high' if abs(typing_speed - mouse_speed/100) < 2 else 'low'
-            
-            # Match against known threat patterns
-            matched_patterns = []
-            
-            for pattern_name, pattern_info in self.threat_patterns.items():
-                for condition in pattern_info['conditions']:
-                    # Default condition values if not specified
-                    condition_typing = condition.get('typing', None)
-                    condition_mouse = condition.get('mouse', None)
-                    condition_consistency = condition.get('consistency', None)
-                    condition_if_suspicious = condition.get('if_suspicious', None)
-                    condition_svm_suspicious = condition.get('svm_suspicious', None)
-                    condition_one_algorithm = condition.get('one_algorithm_suspicious', None)
+            # Build a detailed context for the AI
+            if self.has_api_key():
+                try:
+                    # Create a prompt for Gemini
+                    prompt = f"""You are CyberGuardian, an advanced AI security analyst specializing in Zero Trust security and behavioral biometrics.
+
+USER BEHAVIOR DATA:
+- Typing Speed: {typing_speed:.2f} keystrokes/second
+- Mouse Movement Speed: {mouse_speed:.2f} pixels/second
+- Typing Category: {typing_desc}
+- Mouse Movement Category: {mouse_desc}
+
+ANOMALY DETECTION RESULTS:
+1. Isolation Forest Algorithm:
+   - Verdict: {isolation_forest_result['verdict']}
+   - Confidence: {isolation_forest_result['confidence']:.2f}%
+   - Is Anomaly: {"Yes" if isolation_forest_result['is_anomaly'] else "No"}
+
+2. One-Class SVM Algorithm:
+   - Verdict: {one_class_svm_result['verdict']}
+   - Confidence: {one_class_svm_result['confidence']:.2f}%
+   - Is Anomaly: {"Yes" if one_class_svm_result['is_anomaly'] else "No"}
+
+TASK:
+Based on this behavioral biometric data and machine learning results, provide a security threat assessment with the following:
+
+1. Threat Level (Critical, High, Medium, Low, or None)
+2. Detailed Analysis (3-4 sentences explaining the reasoning behind your assessment)
+3. Recommended Actions (2-3 specific security measures to take)
+
+Use a professional cybersecurity tone and focus on behavioral biometrics in a Zero Trust security framework.
+Your response should start with "Threat Level: " followed by the assessment level.
+"""
+
+                    # Configure and call Gemini model
+                    model = genai.GenerativeModel('gemini-pro')
+                    response = model.generate_content(prompt)
                     
-                    # Check if conditions match
-                    typing_match = condition_typing is None or typing_category == condition_typing
-                    mouse_match = condition_mouse is None or mouse_category == condition_mouse
-                    consistency_match = condition_consistency is None or consistency == condition_consistency
-                    if_match = condition_if_suspicious is None or if_suspicious == condition_if_suspicious
-                    svm_match = condition_svm_suspicious is None or svm_suspicious == condition_svm_suspicious
-                    one_algo_match = condition_one_algorithm is None or one_algorithm_suspicious == condition_one_algorithm
+                    # Extract the response content
+                    analysis = response.text
                     
-                    # If all conditions match, this is a matching pattern
-                    if (typing_match and mouse_match and consistency_match and 
-                        if_match and svm_match and one_algo_match):
-                        matched_patterns.append(pattern_info)
-                        break  # Found a matching condition for this pattern
-            
-            # If no patterns match, default to 'normal_user'
-            if not matched_patterns:
-                matched_patterns = [self.threat_patterns['normal_user']]
-            
-            # Sort matched patterns by threat level priority
-            threat_level_priority = {'Critical': 0, 'High': 1, 'Medium': 2, 'Low': 3, 'None': 4}
-            matched_patterns.sort(key=lambda x: threat_level_priority[x['threat_level']])
-            
-            # Use the highest priority (most severe) threat pattern
-            selected_pattern = matched_patterns[0]
-            threat_level = selected_pattern['threat_level']
-            description = selected_pattern['description']
-            
-            # Select a response template based on the threat level
-            templates = self.response_templates[threat_level]
-            analysis = random.choice(templates).format(
-                description=description,
-                typing_speed=typing_speed,
-                mouse_speed=mouse_speed,
-                typing_desc=typing_desc,
-                mouse_desc=mouse_desc
-            )
-            
-            # Record the threat in history
-            self.record_threat(threat_level, typing_speed, mouse_speed, 
-                              isolation_forest_result['verdict'], 
-                              one_class_svm_result['verdict'])
-            
-            return {
-                'analysis': analysis,
-                'threat_level': threat_level,
-                'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            }
+                    # Parse the threat level from the analysis
+                    threat_level = "Unknown"
+                    if "Threat Level: Critical" in analysis:
+                        threat_level = "Critical"
+                    elif "Threat Level: High" in analysis:
+                        threat_level = "High"
+                    elif "Threat Level: Medium" in analysis:
+                        threat_level = "Medium"
+                    elif "Threat Level: Low" in analysis:
+                        threat_level = "Low"
+                    elif "Threat Level: None" in analysis:
+                        threat_level = "None"
+                    
+                    # Record the threat in history
+                    self.record_threat(threat_level, typing_speed, mouse_speed, 
+                                    isolation_forest_result['verdict'], 
+                                    one_class_svm_result['verdict'])
+                    
+                    return {
+                        'analysis': analysis,
+                        'threat_level': threat_level,
+                        'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    }
+                
+                except Exception as e:
+                    # Fall back to rule-based analysis if AI fails
+                    st.warning(f"AI analysis error, falling back to rule-based system: {str(e)}")
+                    return self._rule_based_analysis(typing_category, mouse_category, typing_speed, mouse_speed, 
+                                                    typing_desc, mouse_desc, isolation_forest_result, one_class_svm_result)
+            else:
+                # Use rule-based analysis if no API key
+                return self._rule_based_analysis(typing_category, mouse_category, typing_speed, mouse_speed, 
+                                               typing_desc, mouse_desc, isolation_forest_result, one_class_svm_result)
             
         except Exception as e:
             st.error(f"Error analyzing threat: {str(e)}")
@@ -246,6 +236,81 @@ class AIThreatAnalyzer:
                 'recommendation': 'An error occurred while analyzing the threat.',
                 'threat_level': 'Error'
             }
+    
+    def _rule_based_analysis(self, typing_category, mouse_category, typing_speed, mouse_speed, 
+                            typing_desc, mouse_desc, isolation_forest_result, one_class_svm_result):
+        """Fallback rule-based analysis when AI is not available"""
+        # Check if any algorithm found suspicious behavior
+        if_suspicious = isolation_forest_result['is_anomaly']
+        svm_suspicious = one_class_svm_result['is_anomaly']
+        one_algorithm_suspicious = if_suspicious or svm_suspicious
+        both_algorithms_suspicious = if_suspicious and svm_suspicious
+        
+        # Determine consistency of behavior
+        consistency = 'high' if abs(typing_speed - mouse_speed/100) < 2 else 'low'
+        
+        # Match against known threat patterns
+        matched_patterns = []
+        
+        for pattern_name, pattern_info in self.threat_patterns.items():
+            for condition in pattern_info['conditions']:
+                # Default condition values if not specified
+                condition_typing = condition.get('typing', None)
+                condition_mouse = condition.get('mouse', None)
+                condition_consistency = condition.get('consistency', None)
+                condition_if_suspicious = condition.get('if_suspicious', None)
+                condition_svm_suspicious = condition.get('svm_suspicious', None)
+                condition_one_algorithm = condition.get('one_algorithm_suspicious', None)
+                
+                # Check if conditions match
+                typing_match = condition_typing is None or typing_category == condition_typing
+                mouse_match = condition_mouse is None or mouse_category == condition_mouse
+                consistency_match = condition_consistency is None or consistency == condition_consistency
+                if_match = condition_if_suspicious is None or if_suspicious == condition_if_suspicious
+                svm_match = condition_svm_suspicious is None or svm_suspicious == condition_svm_suspicious
+                one_algo_match = condition_one_algorithm is None or one_algorithm_suspicious == condition_one_algorithm
+                
+                # If all conditions match, this is a matching pattern
+                if (typing_match and mouse_match and consistency_match and 
+                    if_match and svm_match and one_algo_match):
+                    matched_patterns.append(pattern_info)
+                    break  # Found a matching condition for this pattern
+        
+        # If no patterns match, default to 'normal_user'
+        if not matched_patterns:
+            matched_patterns = [self.threat_patterns['normal_user']]
+        
+        # Sort matched patterns by threat level priority
+        threat_level_priority = {'Critical': 0, 'High': 1, 'Medium': 2, 'Low': 3, 'None': 4}
+        matched_patterns.sort(key=lambda x: threat_level_priority[x['threat_level']])
+        
+        # Use the highest priority (most severe) threat pattern
+        selected_pattern = matched_patterns[0]
+        threat_level = selected_pattern['threat_level']
+        description = selected_pattern['description']
+        
+        # Generate analysis text
+        if threat_level == "Critical":
+            analysis = f"Threat Level: Critical\n\nAnalysis: {description} detected with high confidence. The observed behavior shows {typing_desc} typing speed ({typing_speed:.2f} k/s) and {mouse_desc} mouse movements ({mouse_speed:.2f} px/s), which is highly consistent with automated tools or scripts. Both detection algorithms flagged this as suspicious activity with high confidence scores.\n\nRecommended Actions:\n1. Immediately block access and terminate current session\n2. Require additional out-of-band authentication\n3. Conduct full security audit of account activities\n4. Monitor for similar patterns across other accounts"
+        elif threat_level == "High":
+            analysis = f"Threat Level: High\n\nAnalysis: Potential {description} identified. The system detected {typing_desc} typing speed ({typing_speed:.2f} k/s) with {mouse_desc} mouse movements ({mouse_speed:.2f} px/s), creating a behavioral pattern consistent with unauthorized access attempts. Multiple detection algorithms confirmed this anomalous behavior pattern.\n\nRecommended Actions:\n1. Trigger step-up authentication immediately\n2. Restrict access to sensitive resources\n3. Monitor all activities in real-time\n4. Consider temporary account suspension if behavior continues"
+        elif threat_level == "Medium":
+            analysis = f"Threat Level: Medium\n\nAnalysis: {description} detected. The user shows {typing_desc} typing speed ({typing_speed:.2f} k/s) and {mouse_desc} mouse movement ({mouse_speed:.2f} px/s), which differs from typical behavioral patterns. This combination was flagged by at least one of our detection algorithms as potentially suspicious activity.\n\nRecommended Actions:\n1. Request additional verification\n2. Increase monitoring level for this session\n3. Apply least-privilege access restrictions temporarily"
+        elif threat_level == "Low":
+            analysis = f"Threat Level: Low\n\nAnalysis: Low-risk {description} detected. The user exhibits {typing_desc} typing speed ({typing_speed:.2f} k/s) and {mouse_desc} mouse movement ({mouse_speed:.2f} px/s), which shows minor deviations from normal patterns. This created a low-confidence alert in one detection algorithm but is likely benign activity.\n\nRecommended Actions:\n1. Continue normal monitoring protocols\n2. No immediate action required\n3. Include data point in behavioral baseline updates"
+        else:  # None
+            analysis = f"Threat Level: None\n\nAnalysis: Normal user behavior confirmed. The user demonstrates {typing_desc} typing speed ({typing_speed:.2f} k/s) and {mouse_desc} mouse movement ({mouse_speed:.2f} px/s), which aligns with expected behavioral patterns. No anomalies were detected by either algorithm, indicating legitimate user activity.\n\nRecommended Actions:\n1. Continue standard Zero Trust verification\n2. Maintain regular authentication renewal cycle\n3. Update behavioral baseline with this interaction data"
+        
+        # Record the threat in history
+        self.record_threat(threat_level, typing_speed, mouse_speed, 
+                          isolation_forest_result['verdict'], 
+                          one_class_svm_result['verdict'])
+        
+        return {
+            'analysis': analysis,
+            'threat_level': threat_level,
+            'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
     
     def record_threat(self, threat_level, typing_speed, mouse_speed, if_verdict, svm_verdict):
         """
