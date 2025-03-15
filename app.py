@@ -160,7 +160,7 @@ def toggle_real_time_monitoring():
 st.sidebar.title("Navigation")
 page = st.sidebar.radio(
     "Select a component:",
-    ["Zero Trust Security Prototype", "AI Threat Analysis", "Quantum Security Animation", "Threat Intelligence Dashboard", "Presentation Guide"]
+    ["Zero Trust Security Prototype", "Web Surfing Security Simulator", "AI Threat Analysis", "Quantum Security Animation", "Threat Intelligence Dashboard", "Presentation Guide"]
 )
 
 # API Key Configuration in sidebar
@@ -670,6 +670,373 @@ elif page == "AI Threat Analysis":
         To enable this feature, provide your OpenAI API key in the sidebar settings.
         """)
 
+elif page == "Web Surfing Security Simulator":
+    st.header("Web Surfing Security Simulator")
+    
+    with st.expander("How does the Web Surfing Security System work?", expanded=False):
+        st.markdown("""
+        ### Real-time Web Activity Security Monitoring
+        
+        This system combines multiple security layers to detect and block malicious behavior while allowing legitimate users to browse:
+        
+        1. **Behavioral Biometrics**: Analyzes typing patterns and mouse movements to establish a user baseline
+        2. **Anomaly Detection**: Uses machine learning to identify deviations from normal browsing patterns
+        3. **Zero Trust Security**: Continuously verifies user identity through their behavior, not just initial login
+        4. **Real-time Blocking**: Immediately restricts access when suspicious patterns are detected
+        
+        The simulator below lets you experience how the system works from both perspectives:
+        - As a legitimate user browsing normally
+        - As an attacker attempting to compromise the system
+        """)
+    
+    # Create tabs for different simulation modes
+    tab1, tab2 = st.tabs(["Normal User Experience", "Attacker Detection"])
+    
+    with tab1:
+        st.subheader("Normal User Web Browsing Experience")
+        st.markdown("Experience how a legitimate user can browse normally while being protected by the system.")
+        
+        # Simulated website interface
+        st.markdown("""
+        <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
+            <div style="background-color: #0068C9; color: white; padding: 10px; border-radius: 5px 5px 0 0; display: flex; justify-content: space-between; align-items: center;">
+                <div>🔒 secure.banking-portal.com</div>
+                <div>User: John.Smith</div>
+            </div>
+            <div style="padding: 15px; background-color: white; border: 1px solid #ddd; border-top: none; border-radius: 0 0 5px 5px;">
+                <h3 style="color: #333;">Welcome to SecureBank Online</h3>
+                <p>Select an action below:</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+                    <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">View Accounts</button>
+                    <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Make a Transfer</button>
+                    <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Pay Bills</button>
+                    <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">View Statements</button>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Simulated user actions
+        st.markdown("### Simulate Normal User Actions")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("View Account Balance", key="view_balance"):
+                with st.spinner("Processing request and verifying user behavior..."):
+                    # Simulate behavior verification
+                    time.sleep(1)
+                    
+                    # Display verification steps
+                    st.success("✓ User behavior verified")
+                    st.markdown("""
+                    **Security Checks Passed:**
+                    - Typing pattern matches user profile
+                    - Mouse movement consistent with previous sessions
+                    - Action timing aligns with normal usage
+                    - Location verification successful
+                    """)
+                    
+                    # Show account information
+                    st.markdown("""
+                    <div style="border: 1px solid #ddd; border-radius: 5px; padding: 15px; background-color: white; margin-top: 15px;">
+                        <h4 style="margin-top: 0;">Account Summary</h4>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr style="border-bottom: 1px solid #ddd;">
+                                <th style="text-align: left; padding: 8px;">Account</th>
+                                <th style="text-align: right; padding: 8px;">Balance</th>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #ddd;">
+                                <td style="padding: 8px;">Checking (****4567)</td>
+                                <td style="text-align: right; padding: 8px;">$3,241.87</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;">Savings (****7890)</td>
+                                <td style="text-align: right; padding: 8px;">$12,458.63</td>
+                            </tr>
+                        </table>
+                    </div>
+                    """, unsafe_allow_html=True)
+            
+        with col2:
+            if st.button("Make a Transfer", key="make_transfer"):
+                with st.spinner("Processing request and verifying user behavior..."):
+                    # Simulate behavior verification
+                    time.sleep(1)
+                    
+                    # Display verification steps
+                    st.success("✓ User behavior verified")
+                    st.markdown("""
+                    **Security Checks Passed:**
+                    - Behavioral biometrics match user profile
+                    - Action consistent with historical patterns
+                    - Multi-factor authentication successful
+                    - Transaction risk assessment: Low
+                    """)
+                    
+                    # Show transfer form
+                    st.markdown("""
+                    <div style="border: 1px solid #ddd; border-radius: 5px; padding: 15px; background-color: white; margin-top: 15px;">
+                        <h4 style="margin-top: 0;">New Transfer</h4>
+                        <form>
+                            <div style="margin-bottom: 10px;">
+                                <label style="display: block; margin-bottom: 5px;">From Account:</label>
+                                <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <option>Checking (****4567) - $3,241.87</option>
+                                    <option>Savings (****7890) - $12,458.63</option>
+                                </select>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label style="display: block; margin-bottom: 5px;">To Account:</label>
+                                <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <option>Savings (****7890)</option>
+                                    <option>External Account (Add New)</option>
+                                </select>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label style="display: block; margin-bottom: 5px;">Amount:</label>
+                                <input type="text" value="$0.00" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
+                            </div>
+                            <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Submit Transfer</button>
+                        </form>
+                    </div>
+                    """, unsafe_allow_html=True)
+        
+        # Real-time security monitoring visualization
+        st.markdown("### Real-time Security Monitoring")
+        
+        # Create a visualization of security checks happening in real-time
+        placeholder = st.empty()
+        
+        if st.button("Show Security Monitoring Visualization", key="show_monitoring"):
+            with placeholder.container():
+                # Create security monitoring visualization
+                progress_bar = st.progress(0)
+                status_text = st.empty()
+                
+                # Simulate real-time security monitoring
+                for i in range(101):
+                    # Update progress bar
+                    progress_bar.progress(i)
+                    
+                    # Update status text based on progress
+                    if i < 25:
+                        status_text.markdown("🔍 **Analyzing typing patterns...**")
+                    elif i < 50:
+                        status_text.markdown("🔍 **Analyzing mouse movement patterns...**")
+                    elif i < 75:
+                        status_text.markdown("🔍 **Comparing with user behavioral baseline...**")
+                    else:
+                        status_text.markdown("🔍 **Calculating anomaly scores...**")
+                    
+                    # Slow down the animation
+                    time.sleep(0.05)
+                
+                # Final security assessment
+                st.success("✅ User behavior verified as legitimate")
+                
+                # Display security confidence scores
+                st.markdown("### Security Confidence Scores")
+                
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric(
+                        label="Typing Pattern Match", 
+                        value="98%", 
+                        delta="3%",
+                        delta_color="normal"
+                    )
+                
+                with col2:
+                    st.metric(
+                        label="Mouse Pattern Match", 
+                        value="95%", 
+                        delta="2%",
+                        delta_color="normal"
+                    )
+                
+                with col3:
+                    st.metric(
+                        label="Overall Security Score", 
+                        value="96%", 
+                        delta="2%",
+                        delta_color="normal"
+                    )
+    
+    with tab2:
+        st.subheader("Attacker Detection Simulation")
+        st.markdown("Experience how the system detects and blocks malicious behavior in real-time.")
+        
+        # Simulated attacker interface
+        st.markdown("""
+        <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
+            <div style="background-color: #0068C9; color: white; padding: 10px; border-radius: 5px 5px 0 0; display: flex; justify-content: space-between; align-items: center;">
+                <div>🔒 secure.banking-portal.com</div>
+                <div>User: John.Smith</div>
+            </div>
+            <div style="padding: 15px; background-color: white; border: 1px solid #ddd; border-top: none; border-radius: 0 0 5px 5px;">
+                <h3 style="color: #333;">Welcome to SecureBank Online</h3>
+                <p>Select an action below:</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+                    <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">View Accounts</button>
+                    <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Make a Transfer</button>
+                    <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Pay Bills</button>
+                    <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">View Statements</button>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Attacker simulation options
+        st.markdown("### Simulate Attack Scenarios")
+        
+        attack_type = st.selectbox(
+            "Select Attack Type",
+            [
+                "Automated Bot Attack",
+                "Account Takeover Attempt",
+                "Data Exfiltration Attempt",
+                "Unusually Fast Navigation"
+            ]
+        )
+        
+        if st.button("Simulate Attack", type="primary"):
+            with st.spinner("Simulating attack scenario..."):
+                # Simulate detection process
+                time.sleep(1.5)
+                
+                attack_detected = True
+                
+                if attack_detected:
+                    # Show attack detection interface
+                    st.error("⚠️ **ATTACK DETECTED: Suspicious Behavior Blocked**")
+                    
+                    # Show security alert details
+                    st.markdown("""
+                    <div style="border: 2px solid #ff5252; border-radius: 5px; padding: 15px; background-color: #ffebee; margin-top: 15px;">
+                        <h4 style="margin-top: 0; color: #c62828;">Security Alert Details</h4>
+                        <ul style="margin-bottom: 0;">
+                            <li><strong>Alert Type:</strong> Behavioral Anomaly Detection</li>
+                            <li><strong>Threat Level:</strong> Critical</li>
+                            <li><strong>Trigger:</strong> Abnormal interaction patterns inconsistent with user profile</li>
+                            <li><strong>Action Taken:</strong> Session blocked, additional authentication required</li>
+                            <li><strong>Time:</strong> Just now</li>
+                        </ul>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    # Show the user blocking screen
+                    st.markdown("""
+                    <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9; margin-top: 20px;">
+                        <div style="background-color: #c62828; color: white; padding: 15px; border-radius: 5px; text-align: center; margin-bottom: 15px;">
+                            <h3 style="margin: 0;">⚠️ Security Alert: Suspicious Activity Detected</h3>
+                        </div>
+                        <div style="padding: 15px; background-color: white; border: 1px solid #ddd; border-radius: 5px; text-align: center;">
+                            <p style="font-size: 16px;">For your security, we've detected unusual activity on this account.</p>
+                            <p style="font-size: 16px; margin-bottom: 20px;">Additional verification is required to continue.</p>
+                            <button style="background-color: #0068C9; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;">Verify Identity</button>
+                            <p style="font-size: 14px; margin-top: 20px; color: #666;">If you believe this is an error, please contact customer support at 1-800-555-0123.</p>
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    # Show real-time detection details
+                    st.subheader("Threat Detection Details")
+                    
+                    # Display detection metrics
+                    col1, col2, col3 = st.columns(3)
+                    
+                    with col1:
+                        if attack_type == "Automated Bot Attack":
+                            st.metric(
+                                label="Bot Probability", 
+                                value="94%", 
+                                delta="92%",
+                                delta_color="inverse"
+                            )
+                        elif attack_type == "Account Takeover Attempt":
+                            st.metric(
+                                label="User Match Score", 
+                                value="12%", 
+                                delta="-83%",
+                                delta_color="inverse"
+                            )
+                        elif attack_type == "Data Exfiltration Attempt":
+                            st.metric(
+                                label="Data Access Pattern", 
+                                value="Anomalous", 
+                                delta="Unusual",
+                                delta_color="inverse"
+                            )
+                        else:
+                            st.metric(
+                                label="Navigation Speed", 
+                                value="14x Normal", 
+                                delta="13x",
+                                delta_color="inverse"
+                            )
+                    
+                    with col2:
+                        st.metric(
+                            label="Behavioral Match", 
+                            value="8%", 
+                            delta="-87%",
+                            delta_color="inverse"
+                        )
+                    
+                    with col3:
+                        st.metric(
+                            label="Security Score", 
+                            value="3%", 
+                            delta="-93%",
+                            delta_color="inverse"
+                        )
+                    
+                    # Show detection algorithm results
+                    st.markdown("### Algorithm Detection Results")
+                    
+                    if attack_type == "Automated Bot Attack":
+                        detection_details = """
+                        - **Isolation Forest**: Anomaly detected with 98% confidence
+                        - **One-Class SVM**: Anomaly detected with 96% confidence
+                        - **Typing Pattern Analysis**: Indicates automated input (perfect consistency)
+                        - **Navigation Timing**: Abnormally rapid and consistent timing between actions
+                        """
+                    elif attack_type == "Account Takeover Attempt":
+                        detection_details = """
+                        - **Isolation Forest**: Anomaly detected with 92% confidence
+                        - **One-Class SVM**: Anomaly detected with 88% confidence
+                        - **Typing Pattern Analysis**: Completely different from account owner's pattern
+                        - **Behavioral Biometrics**: Mouse movement patterns inconsistent with baseline
+                        """
+                    elif attack_type == "Data Exfiltration Attempt":
+                        detection_details = """
+                        - **Isolation Forest**: Anomaly detected with 94% confidence
+                        - **One-Class SVM**: Anomaly detected with 91% confidence
+                        - **Access Pattern Analysis**: Attempting to access unusual amount of records
+                        - **Data Flow Analysis**: Suspicious attempt to download entire database
+                        """
+                    else:
+                        detection_details = """
+                        - **Isolation Forest**: Anomaly detected with 95% confidence
+                        - **One-Class SVM**: Anomaly detected with 92% confidence
+                        - **Navigation Analysis**: Extremely rapid page transitions (14x normal speed)
+                        - **Session Behavior**: Non-human interaction patterns detected
+                        """
+                    
+                    st.markdown(detection_details)
+                    
+                    # Automated response taken
+                    st.markdown("### Automated Security Response")
+                    st.markdown("""
+                    **Actions Taken:**
+                    - ✅ User session immediately suspended
+                    - ✅ All pending transactions canceled
+                    - ✅ Security alert sent to account owner
+                    - ✅ Additional authentication challenge triggered
+                    - ✅ Security team notified for investigation
+                    - ✅ IP address added to monitoring list
+                    """)
+
 elif page == "Quantum Security Animation":
     st.header("Quantum Security Animation")
     
@@ -687,7 +1054,7 @@ elif page == "Quantum Security Animation":
         This is a quantum-resistant approach based on mathematical lattices - complex mathematical
         structures that present problems even quantum computers can't easily solve.
         
-        **The Animation Below:**
+        **The Visualization Below:**
         Shows how traditional RSA encryption security drops to zero under quantum attack (red line),
         while lattice-based cryptography remains secure (green line).
         """)
@@ -704,8 +1071,8 @@ elif page == "Quantum Security Animation":
     # Button to generate animation
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        if st.button("Generate Enhanced Animation", type="primary", use_container_width=True):
-            with st.spinner("Creating quantum security animation with advanced visual effects..."):
+        if st.button("Generate Enhanced Visualization", type="primary", use_container_width=True):
+            with st.spinner("Creating quantum security visualization with advanced visual effects..."):
                 # Create animation
                 animation_data = create_quantum_animation()
                 st.session_state.animation_data = animation_data
@@ -718,19 +1085,25 @@ elif page == "Quantum Security Animation":
         # Display the animation in a centered column
         col1, col2, col3 = st.columns([1, 6, 1])
         with col2:
-            st.video(animation_bytes)
+            st.image(animation_bytes)
             
-            # Option to download the animation
+            # Show sequential frames as a "slideshow"
+            if st.button("Show Next Frame"):
+                next_frame = get_next_animation_frame()
+                if next_frame:
+                    st.image(next_frame)
+            
+            # Option to download the visualization
             st.download_button(
-                label="Download Animation",
+                label="Download Visualization",
                 data=animation_bytes,
-                file_name="quantum_security_animation.mp4",
-                mime="video/mp4"
+                file_name="quantum_security_visualization.png",
+                mime="image/png"
             )
         
         # Display explanation of the animation
         st.markdown("""
-        ### Animation Explanation
+        ### Visualization Explanation
         
         The visualization illustrates the effectiveness of different encryption methods under quantum computing attacks:
         
@@ -738,7 +1111,7 @@ elif page == "Quantum Security Animation":
         
         - **Green Line (Lattice-based)**: Demonstrates how lattice-based cryptography maintains its security strength even as quantum computing advances.
         
-        ### Key Events in the Animation
+        ### Key Events in the Visualization
         
         1. **At 20% Progress**: Quantum computers reach 1000 qubits, becoming powerful enough to start weakening RSA encryption.
         
