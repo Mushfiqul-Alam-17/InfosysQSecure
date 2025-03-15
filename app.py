@@ -285,6 +285,14 @@ if page == "Zero Trust Security":
                                 if 'error' in threat_analysis:
                                     st.error(f"Error in AI analysis: {threat_analysis['error']}")
                                 else:
+                                    # Record the threat in the enterprise dashboard system
+                                    if 'threat_level' in threat_analysis:
+                                        enterprise_dashboard.add_threat_event(
+                                            threat_analysis['threat_level'],
+                                            f"RAIN™ AI detected {threat_analysis['threat_level'].lower()} risk behavior pattern",
+                                            "Real-Time Monitoring System"
+                                        )
+                                    
                                     # Display threat level with appropriate styling
                                     threat_level = threat_analysis['threat_level']
                                     if threat_level in ["Critical", "High"]:
@@ -591,6 +599,14 @@ elif page == "AI Threat Intelligence":
                     else:
                         # Display threat assessment
                         st.subheader("AI Security Assessment")
+                        
+                        # Record the threat in the enterprise dashboard system
+                        if 'threat_level' in threat_analysis:
+                            enterprise_dashboard.add_threat_event(
+                                threat_analysis['threat_level'],
+                                f"RAIN™ AI detected {threat_analysis['threat_level'].lower()} risk behavior pattern",
+                                "Biometric Analysis Engine"
+                            )
                         
                         # Display threat level with appropriate styling
                         threat_level = threat_analysis['threat_level']
