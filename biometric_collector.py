@@ -30,23 +30,28 @@ class BiometricCollector:
             st.session_state.last_mouse_record_time = time.time()
     
     def track_keystroke(self):
-        """Record a keystroke event and calculate typing speed in real-time"""
+        """Record a keystroke event and calculate typing speed in real-time with enhanced responsiveness"""
         current_time = time.time()
         st.session_state.keypress_times.append(current_time)
         
-        # Keep only the last 10 seconds of keystrokes for real-time analysis
-        cutoff_time = current_time - 10
+        # Keep only the last 5 seconds of keystrokes for more responsive real-time analysis
+        cutoff_time = current_time - 5  # Reduced from 10 seconds to make it more responsive
         st.session_state.keypress_times = [t for t in st.session_state.keypress_times if t > cutoff_time]
         
         # Calculate typing speed (keystrokes per second) over the last time window
         if len(st.session_state.keypress_times) > 1:
             time_window = current_time - st.session_state.keypress_times[0]
             if time_window > 0:
-                # Real-time calculation with exponential smoothing for more stability
+                # Real-time calculation with adaptive smoothing for better responsiveness
                 new_typing_speed = (len(st.session_state.keypress_times) - 1) / time_window
                 
-                # Apply smoothing to avoid erratic jumps
-                alpha = 0.3  # Smoothing factor (0-1): lower = more smoothing
+                # Apply variable smoothing - less smoothing for the first few keystrokes
+                # to make it more responsive initially, then more smoothing for stability
+                if len(st.session_state.typing_speeds) < 3:
+                    alpha = 0.5  # Higher alpha for more responsive initial feedback
+                else:
+                    alpha = 0.3  # Standard smoothing
+                
                 if st.session_state.last_typing_speed > 0:
                     smoothed_speed = (alpha * new_typing_speed) + ((1 - alpha) * st.session_state.last_typing_speed)
                 else:
@@ -59,7 +64,7 @@ class BiometricCollector:
                 if len(st.session_state.typing_speeds) > 30:
                     st.session_state.typing_speeds.pop(0)
                 
-                # Simulate corresponding mouse movement for comprehensive analysis
+                # Always update the mouse data when keystroke speed changes
                 self._update_simulated_mouse_data(smoothed_speed)
     
     def _update_simulated_mouse_data(self, typing_speed):
@@ -172,9 +177,9 @@ class BiometricCollector:
         </style>
         """, unsafe_allow_html=True)
         
-        # Create a text area for typing with custom styling
-        st.markdown("### Type here to measure your typing speed")
-        st.markdown("Type naturally as you would in a regular document, then press **Analyze Now** to evaluate your biometric security profile.")
+        # Create a text area for typing with custom styling in first-person executive style
+        st.markdown("### I analyze your typing patterns in real-time")
+        st.markdown("As you type, I instantly evaluate your keystroke dynamics to verify your identity. My AI-powered analysis works seamlessly without requiring you to press any buttons.")
         
         # Custom text area with real-time keystroke tracking using JavaScript
         if 'prev_text' not in st.session_state:
@@ -307,21 +312,21 @@ class BiometricCollector:
                 ax.legend()
                 st.pyplot(fig)
                 
-                # Add enterprise-level explanation
+                # Add enterprise-level explanation in first-person
                 st.markdown("""
-                ### RAIN™ AI-Driven Biometric Analysis
+                ### How I Analyze Your Identity
                 
-                This system is analyzing your typing patterns using:
+                I'm analyzing your typing patterns in real-time using:
                 
-                1. **Temporal Keystroke Dynamics**: Timing between keypresses creates a unique behavioral fingerprint
-                2. **Pattern Consistency Analysis**: AI models detect deviations from your established baseline
-                3. **Anomaly Detection Algorithms**: Isolation Forest and One-Class SVM machine learning algorithms
-                4. **Gemini-Powered Threat Intelligence**: Advanced AI interprets behavioral patterns
+                1. **Temporal Keystroke Dynamics**: I measure the precise timing between your keypresses to create your unique behavioral fingerprint
+                2. **Pattern Consistency Analysis**: I detect even subtle deviations from your established baseline behavior
+                3. **Anomaly Detection Algorithms**: I employ Isolation Forest and One-Class SVM machine learning to identify suspicious patterns
+                4. **Gemini-Powered Threat Intelligence**: My advanced AI interprets behavioral patterns with industry-leading accuracy
                 
-                The RAIN™ system provides continuous security verification without requiring passwords or tokens.
+                I provide continuous security verification without requiring passwords or tokens, ensuring frictionless protection for your enterprise.
                 """)
         else:
-            st.info("Start typing and press 'Analyze Security Biometrics' to generate your security profile...")
+            st.info("Start typing in the box above. I'll instantly analyze your biometric patterns as you type...")
         
         return text_input, analyze_button
     
