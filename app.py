@@ -164,7 +164,8 @@ st.sidebar.title("RAIN™ Platform")
 page = st.sidebar.radio(
     "Select a component:",
     ["Zero Trust Security", "User Behavior Analysis", "AI Threat Intelligence", 
-     "Quantum Security Visualization", "Enterprise Security Dashboard", "Executive Presentation"]
+     "Quantum Security Visualization", "Enterprise Security Dashboard", "Executive Presentation", 
+     "AI Video Presentation"]
 )
 
 # Set the Gemini API key for background threat analysis (not shown to users)
@@ -1180,6 +1181,13 @@ elif page == "Enterprise Security Dashboard":
 elif page == "Executive Presentation":
     # Display the presentation guide
     display_presentation_guide()
+
+elif page == "AI Video Presentation":
+    # Import the AI Video Presentation module
+    from ai_video_presentation import display_ai_video_presentation
+    
+    # Display the AI Video Presentation
+    display_ai_video_presentation()
 
 # Footer
 st.markdown("---")
