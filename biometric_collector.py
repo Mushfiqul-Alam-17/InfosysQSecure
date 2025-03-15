@@ -176,11 +176,11 @@ class BiometricCollector:
         st.markdown("### Type here to measure your typing speed")
         st.markdown("Type naturally as you would in a regular document, then press **Analyze Now** to evaluate your biometric security profile.")
         
-        # Custom text area with keystroke tracking
-        # Store previous text to detect when changes occur
+        # Custom text area with real-time keystroke tracking using JavaScript
         if 'prev_text' not in st.session_state:
             st.session_state.prev_text = ""
-            
+        
+        # Create a text area element with custom JavaScript for real-time keystroke capture
         text_input = st.text_area(
             "Your typing will be analyzed for security verification:",
             height=150,
@@ -188,11 +188,34 @@ class BiometricCollector:
             help="Type normally to generate biometric security data"
         )
         
+        # Add the JavaScript component to detect keystrokes in real-time
+        st.markdown("""
+        <script>
+            // Function to capture keystrokes in real-time
+            const textArea = parent.document.querySelector('textarea[data-testid="stTextArea"]');
+            
+            if (textArea) {
+                textArea.addEventListener('keydown', function(e) {
+                    // This will reload the page on every keystroke to update the typing speed
+                    setTimeout(function() {
+                        window.parent.postMessage({
+                            type: "streamlit:setComponentValue", 
+                            value: textArea.value,
+                            dataType: "json"
+                        }, "*");
+                    }, 10);
+                });
+            }
+        </script>
+        """, unsafe_allow_html=True)
+        
         # Track keystrokes by detecting changes in the text
         if text_input != st.session_state.prev_text:
             # Text has changed, track a keystroke
             self.track_keystroke()
             st.session_state.prev_text = text_input
+            # Force a rerun to update the UI in real-time
+            st.rerun()
         
         # Add a manual analysis button (this will be used in app.py)
         col1, col2 = st.columns([3, 1])

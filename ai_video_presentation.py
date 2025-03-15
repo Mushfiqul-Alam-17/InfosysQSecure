@@ -268,7 +268,7 @@ class AIPresentationGenerator:
             if i < len(features):
                 y_pos = 0.3 + (i * 0.1)
                 # Animation: features appear one by one
-                feature_alpha = min(1.0, (progress * 5) - i)
+                feature_alpha = max(0.0, min(1.0, (progress * 5) - i))
                 ax.text(0.2, y_pos, features[i], color=self.styles['text_color'], 
                        fontsize=16, ha='left', va='center', alpha=feature_alpha)
                 
@@ -362,7 +362,7 @@ class AIPresentationGenerator:
                        color=marker_color, linewidth=1.5, alpha=0.7)
                 
                 # Phase label with animated appearance
-                phase_alpha = min(1.0, (progress * 5) - i)
+                phase_alpha = max(0.0, min(1.0, (progress * 5) - i))
                 ax.text(marker_x, timeline_y + connector_height + 0.02, phases[i].split(":")[0], 
                        color=marker_color, fontsize=12, ha='center', va='bottom', 
                        weight='bold', alpha=phase_alpha)
@@ -436,7 +436,7 @@ class AIPresentationGenerator:
         # Call to action with animated appearance
         if progress > 0.2:
             # Title
-            title_opacity = min(1.0, (progress - 0.2) * 3)
+            title_opacity = max(0.0, min(1.0, (progress - 0.2) * 3))
             ax.text(0.5, 0.3, "SECURE YOUR ENTERPRISE TODAY", color=self.styles['accent_color'], 
                    fontsize=28, ha='center', va='center', weight='bold', alpha=title_opacity)
         
@@ -460,13 +460,13 @@ class AIPresentationGenerator:
                     ax.add_patch(element)
                     
                     # Add connecting lines
-                    line_alpha = min(1.0, (progress - 0.5) * 5)
+                    line_alpha = max(0.0, min(1.0, (progress - 0.5) * 5))
                     ax.plot([0.5, element_x], [0.5, element_y], 
                            color=self.styles['accent_color'], linewidth=1, alpha=line_alpha * 0.5)
         
         # Add contact information with animated appearance
         if progress > 0.6:
-            contact_opacity = min(1.0, (progress - 0.6) * 3)
+            contact_opacity = max(0.0, min(1.0, (progress - 0.6) * 3))
             ax.text(0.5, 0.7, "Ready to implement RAIN™ in your enterprise?", 
                    color=self.styles['text_color'], fontsize=16, ha='center', va='center', 
                    alpha=contact_opacity)
