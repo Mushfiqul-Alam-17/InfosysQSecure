@@ -196,11 +196,11 @@ if page == "Zero Trust Security Prototype":
     tab1, tab2 = st.tabs(["Real-time Biometric Analysis", "Simulated User Analysis"])
     
     with tab1:
-        st.subheader("Real-time Biometric Analysis")
-        st.markdown("This mode analyzes your actual typing behavior in real-time to detect potential security threats.")
+        st.subheader("RAIN™ Biometric Security Analysis")
+        st.markdown("This enterprise-grade solution analyzes typing behavior to identify and block unauthorized access attempts.")
         
-        # Capture real typing data
-        text_input = biometric_collector.capture_typing_data()
+        # Capture real typing data with analyze button
+        text_input, analyze_button = biometric_collector.capture_typing_data()
         
         if len(st.session_state.typing_speeds) > 0:
             # We have some typing data, so we can analyze it
@@ -215,7 +215,7 @@ if page == "Zero Trust Security Prototype":
             current_typing_speed = st.session_state.last_typing_speed
             
             # Compare with anomaly detection algorithms
-            if st.button("Analyze My Behavior", type="primary"):
+            if analyze_button:
                 with st.spinner("Analyzing your behavior patterns..."):
                     # Run comparison of algorithms
                     results = biometric_collector.compare_algorithms(

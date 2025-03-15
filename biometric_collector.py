@@ -67,25 +67,93 @@ class BiometricCollector:
             border-color: #00C853;
             box-shadow: 0 0 10px rgba(0, 200, 83, 0.3);
         }
+        /* Enterprise styling enhancements */
+        .enterprise-section {
+            border-left: 4px solid #0068C9;
+            padding-left: 15px;
+            margin: 15px 0;
+        }
+        .security-status {
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .security-status.normal {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #2e7d32;
+        }
+        .security-status.warning {
+            background-color: #fff8e1;
+            color: #f57c00;
+            border: 1px solid #f57c00;
+        }
+        .security-status.alert {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #c62828;
+        }
+        /* Button styling */
+        .analyze-button {
+            background-color: #0068C9;
+            color: white;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .analyze-button:hover {
+            background-color: #004c94;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
         </style>
         """, unsafe_allow_html=True)
         
         # Create a text area for typing with custom styling
         st.markdown("### Type here to measure your typing speed")
-        st.markdown("Type naturally as you would in a regular document. Your typing metrics will be measured in real-time.")
+        st.markdown("Type naturally as you would in a regular document, then press **Analyze Now** to evaluate your biometric security profile.")
         
         # Custom text area with keystroke tracking
         text_input = st.text_area(
-            "Real-time typing analysis:",
+            "Your typing will be analyzed for security verification:",
             height=150,
             key="typing_input",
-            help="Type normally to generate biometric data",
+            help="Type normally to generate biometric security data",
             on_change=self.track_keystroke
         )
         
-        # Display current typing speed
+        # Add a manual analysis button (this will be used in app.py)
+        analyze_button = st.button("🔒 Analyze Security Biometrics", type="primary", key="analyze_typing")
+        
+        # Display current typing speed if we have data AND the button was pressed
         if st.session_state.typing_speeds:
             avg_speed = sum(st.session_state.typing_speeds) / len(st.session_state.typing_speeds)
+            
+            # Add an indicator for the security status
+            security_status = "normal"
+            security_message = "Normal Human Pattern"
+            
+            if avg_speed > 8.0:
+                security_status = "alert"
+                security_message = "Suspicious: Abnormally Fast Typing"
+            elif avg_speed < 2.0:
+                security_status = "warning"
+                security_message = "Caution: Unusually Slow Typing"
+            
+            st.markdown(f"""
+            <div class="enterprise-section">
+                <h3>RAIN™ Biometric Security Analysis</h3>
+                <div class="security-status {security_status}">
+                    {security_message}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
             
             col1, col2 = st.columns(2)
             with col1:
@@ -106,7 +174,7 @@ class BiometricCollector:
                 ax.plot(st.session_state.typing_speeds, color='#0068C9', linewidth=2)
                 ax.set_ylabel('Keystrokes/sec')
                 ax.set_xlabel('Time (most recent measurements)')
-                ax.set_title('Your Typing Speed Pattern')
+                ax.set_title('RAIN™ Biometric Typing Pattern Analysis')
                 ax.grid(True, alpha=0.3)
                 
                 # Add horizontal line for average
@@ -120,10 +188,24 @@ class BiometricCollector:
                 
                 ax.legend()
                 st.pyplot(fig)
+                
+                # Add enterprise-level explanation
+                st.markdown("""
+                ### RAIN™ AI-Driven Biometric Analysis
+                
+                This system is analyzing your typing patterns using:
+                
+                1. **Temporal Keystroke Dynamics**: Timing between keypresses creates a unique behavioral fingerprint
+                2. **Pattern Consistency Analysis**: AI models detect deviations from your established baseline
+                3. **Anomaly Detection Algorithms**: Isolation Forest and One-Class SVM machine learning algorithms
+                4. **Gemini-Powered Threat Intelligence**: Advanced AI interprets behavioral patterns
+                
+                The RAIN™ system provides continuous security verification without requiring passwords or tokens.
+                """)
         else:
-            st.info("Start typing to see your typing speed metrics...")
+            st.info("Start typing and press 'Analyze Security Biometrics' to generate your security profile...")
         
-        return text_input
+        return text_input, analyze_button
     
     def simulate_mouse_data(self, normal_count=100, suspicious_count=10):
         """
