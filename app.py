@@ -1191,11 +1191,11 @@ elif page == "Executive Presentation":
     # Display the presentation guide
     display_presentation_guide()
 
-elif page == "AI Video Presentation":
-    # Import the AI Video Presentation module
+elif page == "Enterprise Website":
+    # Import the Enterprise Website redirect module
     from ai_video_presentation import display_ai_video_presentation
     
-    # Display the AI Video Presentation
+    # Display the Enterprise Website redirect interface
     display_ai_video_presentation()
 
 # Footer

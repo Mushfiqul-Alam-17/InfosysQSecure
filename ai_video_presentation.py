@@ -672,7 +672,11 @@ class AIPresentationGenerator:
         return html_file
 
 def display_ai_video_presentation():
-    """Display a website redirect interface for RAIN Enterprise Security"""
+    """Display a website redirect interface for RAIN Enterprise Security
+    
+    Note: Function name kept as display_ai_video_presentation for backward compatibility,
+    though this now displays the Enterprise Website interface instead.
+    """
     st.markdown("""
     <div style="text-align: center; padding: 20px; background-color: #f0f7ff; border-radius: 10px; margin-bottom: 20px;">
         <h1 style="color: #0068C9;">RAIN™ Enterprise Website</h1>
