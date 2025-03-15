@@ -9,7 +9,7 @@ from io import BytesIO
 import time
 from datetime import datetime
 
-from zero_trust import generate_user_data, check_user_behavior
+from zero_trust import ZeroTrustSecuritySystem
 from quantum_visualization import create_quantum_animation, get_next_animation_frame
 from presentation_guide import display_presentation_guide
 from utils import load_logo
@@ -363,13 +363,13 @@ if page == "Zero Trust Security":
             if st.button("Initialize/Reset System", type="primary"):
                 with st.spinner("Generating user data and training model..."):
                     # Generate simulated user data
-                    normal_users, suspicious_users = generate_user_data(
+                    # Initialize ZeroTrustSecuritySystem
+                    zero_trust_system = ZeroTrustSecuritySystem()
+                    
+                    # Generate user data using the ZeroTrustSecuritySystem
+                    normal_users, suspicious_users = zero_trust_system.generate_user_data(
                         normal_count=100, 
-                        suspicious_count=10,
-                        normal_typing_speed_mean=5.0,
-                        normal_mouse_speed_mean=300.0,
-                        suspicious_typing_speed_mean=2.0,
-                        suspicious_mouse_speed_mean=600.0
+                        suspicious_count=10
                     )
                     
                     # Save data to session state
@@ -400,11 +400,20 @@ if page == "Zero Trust Security":
             with col1:
                 st.subheader(f"Analyzing User #{st.session_state.current_user_index + 1}")
                 
-                # Run analysis
-                is_anomaly, confidence, predicted_label = check_user_behavior(
-                    current_user, 
-                    st.session_state.model
-                )
+                # Initialize ZeroTrustSecuritySystem if needed
+                if 'zero_trust_system' not in st.session_state:
+                    st.session_state.zero_trust_system = ZeroTrustSecuritySystem()
+                
+                # Run analysis using ZeroTrustSecuritySystem
+                results = st.session_state.zero_trust_system.check_user_behavior({
+                    'typing_speed': current_user['typing_speed'],
+                    'mouse_speed': current_user['mouse_movement_speed']
+                })
+                
+                # Extract result values
+                is_anomaly = results['overall_is_anomaly']
+                confidence = results['overall_confidence']
+                predicted_label = "Suspicious" if is_anomaly else "Normal"
                 
                 # Display user metrics
                 metrics_col1, metrics_col2 = st.columns(2)
