@@ -181,7 +181,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 if page == "Zero Trust Security":
-    st.header("Zero Trust Security Prototype")
+    st.header("RAIN™ Zero Trust Security")
     
     # Description of the Zero Trust model
     with st.expander("What is Zero Trust Security?", expanded=False):
@@ -1024,8 +1024,8 @@ elif page == "User Behavior Analysis":
                     - ✅ IP address added to monitoring list
                     """)
 
-elif page == "Quantum Security Animation":
-    st.header("Quantum Security Animation")
+elif page == "Quantum Security Visualization":
+    st.header("RAIN™ Quantum-Resistant Security")
     
     with st.expander("What is Quantum-Resistant Cryptography?", expanded=False):
         st.markdown("""
@@ -1142,8 +1142,8 @@ elif page == "Quantum Security Animation":
             These algorithms are being standardized by NIST as part of their Post-Quantum Cryptography standardization process.
             """)
 
-elif page == "Threat Intelligence Dashboard":
-    st.header("Threat Intelligence Dashboard")
+elif page == "Enterprise Security Dashboard":
+    st.header("RAIN™ Enterprise Security Dashboard")
     
     # Check if there's any threat history data
     if hasattr(st.session_state, 'threat_history') and st.session_state.threat_history:
@@ -1274,10 +1274,15 @@ elif page == "Threat Intelligence Dashboard":
         Start using the AI Threat Analysis feature to populate this dashboard with real data.
         """)
 
-elif page == "Presentation Guide":
+elif page == "Executive Presentation":
     # Display the presentation guide
     display_presentation_guide()
 
 # Footer
 st.markdown("---")
-st.markdown("Quantum-Resistant Zero Trust AI Security System - Created for Infosys")
+st.markdown("""
+<div style="text-align: center; color: #666;">
+<p>RAIN™ Enterprise Security Platform - Real-Time AI-Driven Threat Interceptor and Neutralizer</p>
+<p>© 2025 • Created for Infosys</p>
+</div>
+""", unsafe_allow_html=True)
