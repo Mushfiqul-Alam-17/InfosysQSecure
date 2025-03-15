@@ -120,13 +120,22 @@ class BiometricCollector:
         st.markdown("Type naturally as you would in a regular document, then press **Analyze Now** to evaluate your biometric security profile.")
         
         # Custom text area with keystroke tracking
+        # Store previous text to detect when changes occur
+        if 'prev_text' not in st.session_state:
+            st.session_state.prev_text = ""
+            
         text_input = st.text_area(
             "Your typing will be analyzed for security verification:",
             height=150,
             key="typing_input",
-            help="Type normally to generate biometric security data",
-            on_change=self.track_keystroke
+            help="Type normally to generate biometric security data"
         )
+        
+        # Track keystrokes by detecting changes in the text
+        if text_input != st.session_state.prev_text:
+            # Text has changed, track a keystroke
+            self.track_keystroke()
+            st.session_state.prev_text = text_input
         
         # Add a manual analysis button (this will be used in app.py)
         col1, col2 = st.columns([3, 1])

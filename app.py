@@ -805,10 +805,17 @@ elif page == "User Behavior Analysis":
                                 <label style="display: block; margin-bottom: 5px;">Amount:</label>
                                 <input type="text" value="$0.00" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
                             </div>
-                            <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Submit Transfer</button>
                         </form>
                     </div>
                     """, unsafe_allow_html=True)
+                    
+                    # Add a Streamlit button separate from HTML form to handle transaction submission properly
+                    if st.button("Submit Transfer", key="submit_transfer_button"):
+                        # Simulate processing the transfer
+                        with st.spinner("Processing transfer..."):
+                            time.sleep(1.5)
+                            st.success("✅ Transfer completed successfully!")
+                            # This won't redirect because it's a proper Streamlit button, not an HTML form submit
         
         # Real-time security monitoring visualization
         st.markdown("### Real-time Security Monitoring")

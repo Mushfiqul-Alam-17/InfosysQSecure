@@ -18,6 +18,16 @@ class AIThreatAnalyzer:
         if 'threat_history' not in st.session_state:
             st.session_state.threat_history = []
             
+        # Set default API key for demo purposes
+        # In a real production environment, this would be securely stored
+        self.api_key = "AIzaSyBX-IsY-_uOUEWV2_-r3k0xzCWFQim9rqA"  # Demo API key for presentation purposes
+        
+        # Configure Gemini AI with the demo API key
+        try:
+            genai.configure(api_key=self.api_key)
+        except Exception as e:
+            st.warning(f"Demo API configuration issue: {str(e)}")
+            
         # Define expert knowledge base for threat analysis
         self.typing_thresholds = {
             'very_slow': 2.0,    # Very slow typing < 2 keystroke/sec
