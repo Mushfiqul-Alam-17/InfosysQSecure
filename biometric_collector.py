@@ -124,8 +124,16 @@ class BiometricCollector:
             if len(st.session_state.mouse_speeds) > 30:
                 st.session_state.mouse_speeds.pop(0)
     
-    def capture_typing_data(self):
-        """Capture typing data using a Streamlit text area with JavaScript callback"""
+    def capture_typing_data(self, key_suffix=""):
+        """
+        Capture typing data using a Streamlit text area with JavaScript callback
+        
+        Parameters:
+        -----------
+        key_suffix: str
+            Optional suffix to add to the element keys to make them unique
+            when the function is called multiple times in different contexts
+        """
         st.markdown("""
         <style>
         .typing-area {
@@ -201,7 +209,7 @@ class BiometricCollector:
         text_input = st.text_area(
             "Your typing will be analyzed for security verification:",
             height=150,
-            key="typing_input",
+            key=f"typing_input{key_suffix}",
             help="Type normally to generate biometric security data"
         )
         
@@ -288,10 +296,10 @@ class BiometricCollector:
         # Add a manual analysis button (this will be used in app.py)
         col1, col2 = st.columns([3, 1])
         with col1:
-            analyze_button = st.button("🔒 Analyze Security Biometrics", type="primary", key="analyze_typing")
+            analyze_button = st.button("🔒 Analyze Security Biometrics", type="primary", key=f"analyze_typing{key_suffix}")
         with col2:
             # Add reset button to clear previous typing data
-            if st.button("🔄 Reset Analysis", key="reset_typing"):
+            if st.button("🔄 Reset Analysis", key=f"reset_typing{key_suffix}"):
                 st.session_state.typing_speeds = []
                 st.session_state.keypress_times = []
                 st.session_state.last_typing_speed = 0.0

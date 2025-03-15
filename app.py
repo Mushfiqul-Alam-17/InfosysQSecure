@@ -209,7 +209,7 @@ if page == "Zero Trust Security":
         st.markdown("This enterprise-grade solution analyzes typing behavior to identify and block unauthorized access attempts.")
         
         # Capture real typing data with analyze button
-        text_input, analyze_button = biometric_collector.capture_typing_data()
+        text_input, analyze_button = biometric_collector.capture_typing_data("_main")
         
         if len(st.session_state.typing_speeds) > 0:
             # We have some typing data, so we can analyze it
@@ -579,7 +579,7 @@ if page == "Zero Trust Security":
         st.subheader("Real-time Typing Analysis for Threat Detection")
         
         # Capture real typing data
-        text_input = biometric_collector.capture_typing_data()
+        text_input, _ = biometric_collector.capture_typing_data("_ai")
         
         if len(st.session_state.typing_speeds) > 0:
             # We have some typing data, so we can analyze it
