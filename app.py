@@ -613,94 +613,202 @@ elif page == "User Behavior Analysis":
         # Simulated user actions
         st.markdown("### Simulate Normal User Actions")
         
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("View Account Balance", key="view_balance"):
-                with st.spinner("Processing request and verifying user behavior..."):
-                    # Simulate behavior verification
-                    time.sleep(1)
-                    
-                    # Display verification steps
-                    st.success("✓ User behavior verified")
-                    st.markdown("""
-                    **Security Checks Passed:**
-                    - Typing pattern matches user profile
-                    - Mouse movement consistent with previous sessions
-                    - Action timing aligns with normal usage
-                    - Location verification successful
-                    """)
-                    
-                    # Show account information
-                    st.markdown("""
-                    <div style="border: 1px solid #ddd; border-radius: 5px; padding: 15px; background-color: white; margin-top: 15px;">
-                        <h4 style="margin-top: 0;">Account Summary</h4>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr style="border-bottom: 1px solid #ddd;">
-                                <th style="text-align: left; padding: 8px;">Account</th>
-                                <th style="text-align: right; padding: 8px;">Balance</th>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #ddd;">
-                                <td style="padding: 8px;">Checking (****4567)</td>
-                                <td style="text-align: right; padding: 8px;">$3,241.87</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px;">Savings (****7890)</td>
-                                <td style="text-align: right; padding: 8px;">$12,458.63</td>
-                            </tr>
-                        </table>
-                    </div>
-                    """, unsafe_allow_html=True)
+        action_tabs = st.tabs(["View Accounts", "Make a Transfer", "Pay Bills", "View Statements"])
+        
+        with action_tabs[0]:  # View Accounts
+            st.subheader("Account Overview")
+            with st.spinner("Processing request and verifying user behavior..."):
+                # Simulate behavior verification
+                time.sleep(0.5)
+                
+                # Display verification steps
+                st.success("✓ User behavior verified")
+                st.markdown("""
+                **Security Checks Passed:**
+                - Typing pattern matches user profile
+                - Mouse movement consistent with previous sessions
+                - Action timing aligns with normal usage
+                - Location verification successful
+                """)
+                
+                # Show account information
+                st.markdown("""
+                <div style="border: 1px solid #ddd; border-radius: 5px; padding: 15px; background-color: white; margin-top: 15px;">
+                    <h4 style="margin-top: 0;">Account Summary</h4>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <th style="text-align: left; padding: 8px;">Account</th>
+                            <th style="text-align: right; padding: 8px;">Balance</th>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Checking (****4567)</td>
+                            <td style="text-align: right; padding: 8px;">$3,241.87</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Savings (****7890)</td>
+                            <td style="text-align: right; padding: 8px;">$12,458.63</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;">Investment (****1234)</td>
+                            <td style="text-align: right; padding: 8px;">$87,652.44</td>
+                        </tr>
+                    </table>
+                </div>
+                """, unsafe_allow_html=True)
             
-        with col2:
-            if st.button("Make a Transfer", key="make_transfer"):
-                with st.spinner("Processing request and verifying user behavior..."):
-                    # Simulate behavior verification
-                    time.sleep(1)
+        with action_tabs[1]:  # Make a Transfer
+            st.subheader("Transfer Money")
+            with st.spinner("Verifying user identity..."):
+                time.sleep(0.5)
+                
+                # Display verification steps
+                st.success("✓ Identity verified")
+                st.markdown("""
+                **Security Checks Passed:**
+                - Behavioral biometrics match user profile
+                - Action consistent with historical patterns
+                - Multi-factor authentication successful
+                - Transaction risk assessment: Low
+                """)
+                
+                # Create a proper Streamlit form for transfers
+                transfer_form = st.form(key="transfer_form")
+                with transfer_form:
+                    st.selectbox("From Account:", 
+                                ["Checking (****4567) - $3,241.87", 
+                                 "Savings (****7890) - $12,458.63",
+                                 "Investment (****1234) - $87,652.44"])
                     
-                    # Display verification steps
-                    st.success("✓ User behavior verified")
-                    st.markdown("""
-                    **Security Checks Passed:**
-                    - Behavioral biometrics match user profile
-                    - Action consistent with historical patterns
-                    - Multi-factor authentication successful
-                    - Transaction risk assessment: Low
-                    """)
+                    st.selectbox("To Account:", 
+                                ["Savings (****7890)", 
+                                 "Checking (****4567)",
+                                 "Credit Card (****5623)",
+                                 "External Account (Add New)"])
                     
-                    # Show transfer form
-                    st.markdown("""
-                    <div style="border: 1px solid #ddd; border-radius: 5px; padding: 15px; background-color: white; margin-top: 15px;">
-                        <h4 style="margin-top: 0;">New Transfer</h4>
-                        <form>
-                            <div style="margin-bottom: 10px;">
-                                <label style="display: block; margin-bottom: 5px;">From Account:</label>
-                                <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                                    <option>Checking (****4567) - $3,241.87</option>
-                                    <option>Savings (****7890) - $12,458.63</option>
-                                </select>
-                            </div>
-                            <div style="margin-bottom: 10px;">
-                                <label style="display: block; margin-bottom: 5px;">To Account:</label>
-                                <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                                    <option>Savings (****7890)</option>
-                                    <option>External Account (Add New)</option>
-                                </select>
-                            </div>
-                            <div style="margin-bottom: 10px;">
-                                <label style="display: block; margin-bottom: 5px;">Amount:</label>
-                                <input type="text" value="$0.00" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
-                            </div>
-                        </form>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    st.text_input("Amount:", value="$0.00")
+                    st.text_input("Memo (Optional):", placeholder="Enter note")
                     
-                    # Add a Streamlit button separate from HTML form to handle transaction submission properly
-                    if st.button("Submit Transfer", key="submit_transfer_button"):
-                        # Simulate processing the transfer
-                        with st.spinner("Processing transfer..."):
-                            time.sleep(1.5)
-                            st.success("✅ Transfer completed successfully!")
-                            # This won't redirect because it's a proper Streamlit button, not an HTML form submit
+                    submit_button = st.form_submit_button(label="Submit Transfer")
+                
+                if submit_button:
+                    with st.spinner("Processing transfer..."):
+                        time.sleep(1)
+                        st.success("✅ Transfer completed successfully!")
+                        st.markdown("""
+                        **Transfer Details:**
+                        - Transaction ID: TRX298753
+                        - Date: March 16, 2025
+                        - Time: 11:24 AM
+                        - Status: Completed
+                        """)
+        
+        with action_tabs[2]:  # Pay Bills
+            st.subheader("Bill Payments")
+            with st.spinner("Loading payment center..."):
+                time.sleep(0.5)
+                
+                # Display security verification
+                st.success("✓ Identity verified for bill payments")
+                
+                col1, col2 = st.columns([3, 1])
+                
+                with col1:
+                    st.markdown("#### Upcoming Bills")
+                    
+                    bills_data = [
+                        {"name": "City Electric Utility", "amount": "$142.87", "due": "March 19, 2025", "status": "Due Soon", "color": "#FFA500"},
+                        {"name": "Mortgage Payment", "amount": "$1,876.50", "due": "March 28, 2025", "status": "Scheduled", "color": "#008000"},
+                        {"name": "Internet Service", "amount": "$89.99", "due": "April 3, 2025", "status": "Upcoming", "color": "#0068C9"},
+                        {"name": "Water Bill", "amount": "$78.32", "due": "April 5, 2025", "status": "Upcoming", "color": "#0068C9"}
+                    ]
+                    
+                    for bill in bills_data:
+                        st.markdown(f"""
+                        <div style="border: 1px solid #ddd; border-radius: 5px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: bold;">{bill['name']}</div>
+                                <div style="color: #666; font-size: 14px;">Due: {bill['due']}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: bold;">{bill['amount']}</div>
+                                <div style="color: {bill['color']}; font-size: 14px;">{bill['status']}</div>
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                
+                with col2:
+                    st.markdown("#### Quick Pay")
+                    st.selectbox("From Account:", ["Checking (****4567)"])
+                    st.selectbox("Pay To:", ["City Electric Utility", "Mortgage Payment", "Internet Service", "Water Bill", "+ Add New Payee"])
+                    
+                    if st.button("Pay Selected Bill"):
+                        with st.spinner("Processing payment..."):
+                            time.sleep(1)
+                            st.success("✅ Payment scheduled successfully!")
+        
+        with action_tabs[3]:  # View Statements
+            st.subheader("Account Statements")
+            with st.spinner("Retrieving statements..."):
+                time.sleep(0.5)
+                
+                # Form for statement selection
+                st.selectbox("Select Account:", ["Checking (****4567)", "Savings (****7890)", "Investment (****1234)"])
+                
+                # Create table for statements
+                statements = [
+                    {"period": "March 1 - March 31, 2025", "balance": "$3,241.87", "transactions": "24"},
+                    {"period": "February 1 - February 29, 2025", "balance": "$2,856.32", "transactions": "31"},
+                    {"period": "January 1 - January 31, 2025", "balance": "$3,102.54", "transactions": "28"},
+                    {"period": "December 1 - December 31, 2024", "balance": "$2,785.41", "transactions": "35"}
+                ]
+                
+                for statement in statements:
+                    cols = st.columns([3, 2, 2, 1])
+                    with cols[0]:
+                        st.write(statement["period"])
+                    with cols[1]:
+                        st.write(f"Ending Balance: {statement['balance']}")
+                    with cols[2]:
+                        st.write(f"{statement['transactions']} transactions")
+                    with cols[3]:
+                        if st.button("View", key=f"view_{statement['period']}"):
+                            with st.spinner("Loading statement..."):
+                                time.sleep(1)
+                                st.success("Statement loaded")
+                                
+                                st.markdown(f"""
+                                <div style="border: 1px solid #ddd; border-radius: 5px; padding: 15px; background-color: white; margin-top: 15px;">
+                                    <h4 style="margin-top: 0;">Statement for {statement['period']}</h4>
+                                    <p>Checking Account (****4567)</p>
+                                    <p><strong>Beginning Balance:</strong> ${float(statement['balance'].replace('$', '').replace(',', '')) - 500:.2f}</p>
+                                    <p><strong>Ending Balance:</strong> {statement['balance']}</p>
+                                    <p><strong>Transactions:</strong> {statement['transactions']}</p>
+                                    
+                                    <h5>Recent Transactions</h5>
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                        <tr style="border-bottom: 1px solid #ddd;">
+                                            <th style="text-align: left; padding: 8px;">Date</th>
+                                            <th style="text-align: left; padding: 8px;">Description</th>
+                                            <th style="text-align: right; padding: 8px;">Amount</th>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #ddd;">
+                                            <td style="padding: 8px;">Mar 15, 2025</td>
+                                            <td style="padding: 8px;">DIRECT DEPOSIT - SALARY</td>
+                                            <td style="text-align: right; padding: 8px; color: green;">+$2,450.00</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #ddd;">
+                                            <td style="padding: 8px;">Mar 12, 2025</td>
+                                            <td style="padding: 8px;">MORTGAGE PAYMENT</td>
+                                            <td style="text-align: right; padding: 8px; color: red;">-$1,876.50</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #ddd;">
+                                            <td style="padding: 8px;">Mar 10, 2025</td>
+                                            <td style="padding: 8px;">GROCERY STORE</td>
+                                            <td style="text-align: right; padding: 8px; color: red;">-$87.32</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                """, unsafe_allow_html=True)
         
         # Real-time security monitoring visualization
         st.markdown("### Real-time Security Monitoring")
