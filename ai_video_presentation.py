@@ -677,7 +677,7 @@ def display_ai_video_presentation():
     Note: Function name kept as display_ai_video_presentation for backward compatibility,
     though this now displays the Enterprise Website interface instead.
     """
-    # Remove default Streamlit padding
+    # Remove default Streamlit padding and set custom CSS
     st.markdown("""
     <style>
         .block-container {
@@ -689,6 +689,32 @@ def display_ai_video_presentation():
         .stApp {
             background-color: #f5f7fa;
         }
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 24px;
+            background-color: white;
+            padding: 10px 20px;
+            border-bottom: 1px solid #eaeaea;
+            margin-top: 0;
+        }
+        .stTabs [data-baseweb="tab"] {
+            height: 50px;
+            white-space: pre;
+            font-size: 16px;
+            color: #333;
+            border-bottom: none;
+        }
+        .stTabs [aria-selected="true"] {
+            color: #00a3bf !important;
+            border-bottom: 2px solid #00a3bf !important;
+            font-weight: bold;
+        }
+        button {
+            cursor: pointer !important;
+        }
+        /* Hide the default Streamlit footer */
+        footer {
+            visibility: hidden;
+        }
     </style>
     """, unsafe_allow_html=True)
     
@@ -698,57 +724,42 @@ def display_ai_video_presentation():
         <div>
             <span style="color: #00a3bf; font-size: 24px; font-weight: bold;">RAIN™</span>
         </div>
-        <div style="display: flex; align-items: center;">
-            <a href="#" style="color: #00a3bf; margin: 0 15px; text-decoration: none; border-bottom: 2px solid #00a3bf; padding-bottom: 5px;">Home</a>
-            <a href="#" style="color: #333; margin: 0 15px; text-decoration: none;">Value</a>
-            <a href="#" style="color: #333; margin: 0 15px; text-decoration: none;">Dashboard</a>
-            <a href="#" style="color: #333; margin: 0 15px; text-decoration: none;">Phases</a>
-            <a href="#" style="color: #333; margin: 0 15px; text-decoration: none;">Pitch</a>
-        </div>
         <div>
             <button style="background-color: white; color: #00a3bf; border: 1px solid #00a3bf; border-radius: 20px; padding: 8px 15px; font-weight: bold;">Infosys Portal</button>
         </div>
     </div>
     """, unsafe_allow_html=True)
     
-    # Hero section
-    st.markdown("""
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 70vh; background-color: #f5f7fa; padding: 0 20px; text-align: center;">
-        <div style="display: inline-block; background-color: #e6f7f9; color: #00a3bf; padding: 5px 15px; border-radius: 20px; margin-bottom: 20px; font-size: 14px;">
-            Real-time AI-driven threat INterceptor and NEutralizer
-        </div>
-        
-        <h1 style="font-size: 62px; font-weight: bold; margin-bottom: 20px; color: #333;">I'm RAIN™</h1>
-        
-        <p style="font-size: 24px; color: #555; margin-bottom: 40px; max-width: 800px;">
-            Here to transform Infosys into the <span style="color: #00a3bf; font-weight: bold;">quantum security leader</span>, saving your clients billions.
-        </p>
-        
-        <button style="background-color: #00a3bf; color: white; border: none; border-radius: 25px; padding: 12px 25px; font-weight: bold; display: flex; align-items: center; cursor: pointer;">
-            Discover My Power
-            <span style="margin-left: 10px;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </span>
-        </button>
-        
-        <div style="margin-top: 80px;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Add the ability to switch between sections
-    st.markdown("<br>", unsafe_allow_html=True)
-    
+    # Create tabs
     tabs = st.tabs(["Home", "Value", "Dashboard", "Phases", "Pitch"])
     
+    # Hero section (Home tab)
     with tabs[0]:
         st.markdown("""
-        <div style="padding: 40px 20px; background-color: white; border-radius: 10px;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60vh; background-color: #f5f7fa; padding: 0 20px; text-align: center;">
+            <div style="display: inline-block; background-color: #e6f7f9; color: #00a3bf; padding: 5px 15px; border-radius: 20px; margin-bottom: 20px; font-size: 14px;">
+                Real-time AI-driven threat INterceptor and NEutralizer
+            </div>
+            
+            <h1 style="font-size: 62px; font-weight: bold; margin-bottom: 20px; color: #333;">I'm RAIN™</h1>
+            
+            <p style="font-size: 24px; color: #555; margin-bottom: 40px; max-width: 800px;">
+                Here to transform Infosys into the <span style="color: #00a3bf; font-weight: bold;">quantum security leader</span>, saving your clients billions.
+            </p>
+            
+            <button style="background-color: #00a3bf; color: white; border: none; border-radius: 25px; padding: 12px 25px; font-weight: bold; display: flex; align-items: center; cursor: pointer;">
+                Discover My Power
+                <span style="margin-left: 10px;">→</span>
+            </button>
+            
+            <div style="margin-top: 80px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+        
+        <div style="padding: 40px 20px; background-color: white; border-radius: 10px; margin-top: 20px;">
             <h2 style="color: #333; font-weight: bold; margin-bottom: 20px;">RAIN™ Platform Overview</h2>
             <p style="color: #555; font-size: 18px; line-height: 1.6;">
                 RAIN™ is a comprehensive security platform that leverages advanced AI and quantum-resistant cryptography to protect your organization from both current and future threats. Our solution provides real-time monitoring, anomaly detection, and automated response capabilities.
