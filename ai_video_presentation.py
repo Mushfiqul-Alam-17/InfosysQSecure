@@ -677,77 +677,378 @@ def display_ai_video_presentation():
     Note: Function name kept as display_ai_video_presentation for backward compatibility,
     though this now displays the Enterprise Website interface instead.
     """
+    # Remove default Streamlit padding
     st.markdown("""
-    <div style="text-align: center; padding: 20px; background-color: #f0f7ff; border-radius: 10px; margin-bottom: 20px;">
-        <h1 style="color: #0068C9;">RAIN™ Enterprise Website</h1>
-        <p style="font-style: italic;">Access the full RAIN™ Enterprise Security Platform website for comprehensive information and resources.</p>
+    <style>
+        .block-container {
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .stApp {
+            background-color: #f5f7fa;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Navigation bar
+    st.markdown("""
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: white; border-bottom: 1px solid #eaeaea;">
+        <div>
+            <span style="color: #00a3bf; font-size: 24px; font-weight: bold;">RAIN™</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <a href="#" style="color: #00a3bf; margin: 0 15px; text-decoration: none; border-bottom: 2px solid #00a3bf; padding-bottom: 5px;">Home</a>
+            <a href="#" style="color: #333; margin: 0 15px; text-decoration: none;">Value</a>
+            <a href="#" style="color: #333; margin: 0 15px; text-decoration: none;">Dashboard</a>
+            <a href="#" style="color: #333; margin: 0 15px; text-decoration: none;">Phases</a>
+            <a href="#" style="color: #333; margin: 0 15px; text-decoration: none;">Pitch</a>
+        </div>
+        <div>
+            <button style="background-color: white; color: #00a3bf; border: 1px solid #00a3bf; border-radius: 20px; padding: 8px 15px; font-weight: bold;">Infosys Portal</button>
+        </div>
     </div>
     """, unsafe_allow_html=True)
     
-    col1, col2 = st.columns([3, 1])
+    # Hero section
+    st.markdown("""
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 70vh; background-color: #f5f7fa; padding: 0 20px; text-align: center;">
+        <div style="display: inline-block; background-color: #e6f7f9; color: #00a3bf; padding: 5px 15px; border-radius: 20px; margin-bottom: 20px; font-size: 14px;">
+            Real-time AI-driven threat INterceptor and NEutralizer
+        </div>
+        
+        <h1 style="font-size: 62px; font-weight: bold; margin-bottom: 20px; color: #333;">I'm RAIN™</h1>
+        
+        <p style="font-size: 24px; color: #555; margin-bottom: 40px; max-width: 800px;">
+            Here to transform Infosys into the <span style="color: #00a3bf; font-weight: bold;">quantum security leader</span>, saving your clients billions.
+        </p>
+        
+        <button style="background-color: #00a3bf; color: white; border: none; border-radius: 25px; padding: 12px 25px; font-weight: bold; display: flex; align-items: center; cursor: pointer;">
+            Discover My Power
+            <span style="margin-left: 10px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        
+        <div style="margin-top: 80px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     
-    with col1:
+    # Add the ability to switch between sections
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    tabs = st.tabs(["Home", "Value", "Dashboard", "Phases", "Pitch"])
+    
+    with tabs[0]:
         st.markdown("""
-        ### RAIN™ Enterprise Portal
-        
-        Our enterprise website provides comprehensive information and resources about RAIN™ Enterprise Security Platform:
-        
-        * 🏢 **Company Information** - Learn about our mission and leadership
-        * 📊 **Case Studies** - See how RAIN™ has transformed security for Fortune 500 companies
-        * 📈 **ROI Calculator** - Estimate your potential cost savings with RAIN™
-        * 📑 **White Papers** - Download technical documentation and research
-        * 🛠️ **API Documentation** - Integration guides for developers
-        * 📞 **Enterprise Support** - 24/7 dedicated support for enterprise customers
-        
-        Access the full experience by clicking the button to visit the official website.
-        """)
-        
-        # Mock website URL (would be a real URL in production)
-        website_url = "https://rain-enterprise-security.com" 
-        
-        st.markdown("""
-        ### Preview
-        
-        <div style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; background-color: #fff; margin-top: 20px;">
-            <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                <div style="background-color: #0068C9; color: white; border-radius: 5px; padding: 10px; margin-right: 15px;">
-                    <span style="font-size: 24px; font-weight: bold;">RAIN™</span>
+        <div style="padding: 40px 20px; background-color: white; border-radius: 10px;">
+            <h2 style="color: #333; font-weight: bold; margin-bottom: 20px;">RAIN™ Platform Overview</h2>
+            <p style="color: #555; font-size: 18px; line-height: 1.6;">
+                RAIN™ is a comprehensive security platform that leverages advanced AI and quantum-resistant cryptography to protect your organization from both current and future threats. Our solution provides real-time monitoring, anomaly detection, and automated response capabilities.
+            </p>
+            
+            <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <div style="width: 30%; background-color: #f5f7fa; padding: 20px; border-radius: 10px; text-align: center;">
+                    <h3 style="color: #00a3bf; font-weight: bold;">AI-Driven Detection</h3>
+                    <p style="color: #555;">Advanced threat intelligence that learns and adapts to emerging attack vectors</p>
                 </div>
-                <div>
-                    <span style="color: #333; font-weight: bold; font-size: 18px;">Enterprise Security Platform</span>
+                <div style="width: 30%; background-color: #f5f7fa; padding: 20px; border-radius: 10px; text-align: center;">
+                    <h3 style="color: #00a3bf; font-weight: bold;">Quantum-Resistant</h3>
+                    <p style="color: #555;">Future-proof security that withstands attacks from quantum computers</p>
                 </div>
-                <div style="margin-left: auto;">
-                    <span style="padding: 8px 12px; background-color: #f1f1f1; border-radius: 5px; margin-right: 10px;">Login</span>
-                    <span style="padding: 8px 12px; background-color: #0068C9; color: white; border-radius: 5px;">Get Started</span>
+                <div style="width: 30%; background-color: #f5f7fa; padding: 20px; border-radius: 10px; text-align: center;">
+                    <h3 style="color: #00a3bf; font-weight: bold;">Zero Trust Architecture</h3>
+                    <p style="color: #555;">Continuous verification of every user, device, and transaction</p>
                 </div>
-            </div>
-            <div style="height: 200px; background: linear-gradient(135deg, #0068C9, #00C9FF); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold; margin-bottom: 20px;">
-                Enterprise Security for the AI Age
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-                <div style="width: 30%; height: 80px; background-color: #f5f7fa; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
-                    <div style="text-align: center;">
-                        <div style="font-weight: bold; color: #0068C9;">Zero Trust</div>
-                        <div style="font-size: 12px; color: #666;">Identity Management</div>
-                    </div>
-                </div>
-                <div style="width: 30%; height: 80px; background-color: #f5f7fa; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
-                    <div style="text-align: center;">
-                        <div style="font-weight: bold; color: #0068C9;">AI Analysis</div>
-                        <div style="font-size: 12px; color: #666;">Threat Intelligence</div>
-                    </div>
-                </div>
-                <div style="width: 30%; height: 80px; background-color: #f5f7fa; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
-                    <div style="text-align: center;">
-                        <div style="font-weight: bold; color: #0068C9;">Quantum Security</div>
-                        <div style="font-size: 12px; color: #666;">Future-Proof Protection</div>
-                    </div>
-                </div>
-            </div>
-            <div style="color: #999; font-size: 12px; text-align: center; margin-top: 15px;">
-                © 2025 RAIN Enterprise Security, Inc. All rights reserved.
             </div>
         </div>
+        """, unsafe_allow_html=True)
+    
+    with tabs[1]:
+        st.markdown("""
+        <div style="padding: 40px 20px; background-color: white; border-radius: 10px;">
+            <h2 style="color: #333; font-weight: bold; margin-bottom: 20px;">Value Proposition</h2>
+            
+            <div style="display: flex; margin-bottom: 30px;">
+                <div style="min-width: 60px; height: 60px; background-color: #e6f7f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                    <span style="color: #00a3bf; font-size: 24px; font-weight: bold;">1</span>
+                </div>
+                <div>
+                    <h3 style="color: #333; font-weight: bold;">Cost Reduction</h3>
+                    <p style="color: #555; font-size: 16px;">
+                        Reduce security breach costs by up to 48% through AI-powered early detection and automated response
+                    </p>
+                </div>
+            </div>
+            
+            <div style="display: flex; margin-bottom: 30px;">
+                <div style="min-width: 60px; height: 60px; background-color: #e6f7f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                    <span style="color: #00a3bf; font-size: 24px; font-weight: bold;">2</span>
+                </div>
+                <div>
+                    <h3 style="color: #333; font-weight: bold;">Future-Proofing</h3>
+                    <p style="color: #555; font-size: 16px;">
+                        Protect against quantum computing threats today, avoiding costly emergency upgrades in the future
+                    </p>
+                </div>
+            </div>
+            
+            <div style="display: flex; margin-bottom: 30px;">
+                <div style="min-width: 60px; height: 60px; background-color: #e6f7f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                    <span style="color: #00a3bf; font-size: 24px; font-weight: bold;">3</span>
+                </div>
+                <div>
+                    <h3 style="color: #333; font-weight: bold;">Competitive Advantage</h3>
+                    <p style="color: #555; font-size: 16px;">
+                        Position Infosys as the innovator in quantum security, capturing market share from less prepared competitors
+                    </p>
+                </div>
+            </div>
+            
+            <div style="background-color: #f5f7fa; padding: 20px; border-radius: 10px; margin-top: 30px;">
+                <h3 style="color: #00a3bf; font-weight: bold; text-align: center;">ROI Analysis</h3>
+                <p style="color: #555; text-align: center;">
+                    Clients implementing RAIN™ have seen an average ROI of 287% within the first 18 months
+                </p>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with tabs[2]:
+        st.markdown("""
+        <div style="padding: 40px 20px; background-color: white; border-radius: 10px;">
+            <h2 style="color: #333; font-weight: bold; margin-bottom: 20px;">Interactive Security Dashboard</h2>
+            <p style="color: #555; font-size: 16px; margin-bottom: 30px;">
+                Experience a preview of RAIN™'s enterprise security dashboard, providing real-time threat intelligence and defense metrics.
+            </p>
+            
+            <div style="border: 1px solid #eaeaea; border-radius: 10px; padding: 20px; margin-bottom: 30px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <div style="width: 23%; background-color: #f5f7fa; padding: 15px; border-radius: 8px; text-align: center;">
+                        <h4 style="color: #00a3bf; font-weight: bold; margin-bottom: 5px;">96.8%</h4>
+                        <p style="color: #555; font-size: 14px; margin: 0;">Threat Detection Rate</p>
+                    </div>
+                    <div style="width: 23%; background-color: #f5f7fa; padding: 15px; border-radius: 8px; text-align: center;">
+                        <h4 style="color: #00a3bf; font-weight: bold; margin-bottom: 5px;">0.3%</h4>
+                        <p style="color: #555; font-size: 14px; margin: 0;">False Positive Rate</p>
+                    </div>
+                    <div style="width: 23%; background-color: #f5f7fa; padding: 15px; border-radius: 8px; text-align: center;">
+                        <h4 style="color: #00a3bf; font-weight: bold; margin-bottom: 5px;">1.8s</h4>
+                        <p style="color: #555; font-size: 14px; margin: 0;">Avg. Response Time</p>
+                    </div>
+                    <div style="width: 23%; background-color: #f5f7fa; padding: 15px; border-radius: 8px; text-align: center;">
+                        <h4 style="color: #00a3bf; font-weight: bold; margin-bottom: 5px;">29,842</h4>
+                        <p style="color: #555; font-size: 14px; margin: 0;">Attacks Prevented (30d)</p>
+                    </div>
+                </div>
+                
+                <div style="height: 200px; background-color: #f5f7fa; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                    <p style="color: #777; font-style: italic;">Interactive threat map visualization</p>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between;">
+                    <div style="width: 48%; height: 150px; background-color: #f5f7fa; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                        <p style="color: #777; font-style: italic;">Attack vector analysis</p>
+                    </div>
+                    <div style="width: 48%; height: 150px; background-color: #f5f7fa; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                        <p style="color: #777; font-style: italic;">Threat actor intelligence</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button style="background-color: #00a3bf; color: white; border: none; border-radius: 25px; padding: 10px 20px; font-weight: bold;">
+                    Request Live Demo
+                </button>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with tabs[3]:
+        st.markdown("""
+        <div style="padding: 40px 20px; background-color: white; border-radius: 10px;">
+            <h2 style="color: #333; font-weight: bold; margin-bottom: 20px;">Implementation Phases</h2>
+            
+            <div style="margin-bottom: 40px;">
+                <div style="height: 5px; background-color: #e6e6e6; border-radius: 3px; position: relative; margin: 40px 0;">
+                    <div style="position: absolute; left: 0%; top: -8px; width: 20px; height: 20px; background-color: #00a3bf; border-radius: 50%; z-index: 2;"></div>
+                    <div style="position: absolute; left: 33%; top: -8px; width: 20px; height: 20px; background-color: #00a3bf; border-radius: 50%; z-index: 2;"></div>
+                    <div style="position: absolute; left: 66%; top: -8px; width: 20px; height: 20px; background-color: #00a3bf; border-radius: 50%; z-index: 2;"></div>
+                    <div style="position: absolute; left: 100%; top: -8px; width: 20px; height: 20px; background-color: #e6e6e6; border-radius: 50%; z-index: 2;"></div>
+                    <div style="position: absolute; left: 0; top: 0; width: 66%; height: 5px; background-color: #00a3bf; border-radius: 3px; z-index: 1;"></div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                    <div style="width: 25%; text-align: center;">
+                        <p style="font-weight: bold; color: #00a3bf;">Phase 1</p>
+                        <p style="color: #555; font-size: 14px;">Assessment</p>
+                    </div>
+                    <div style="width: 25%; text-align: center;">
+                        <p style="font-weight: bold; color: #00a3bf;">Phase 2</p>
+                        <p style="color: #555; font-size: 14px;">Implementation</p>
+                    </div>
+                    <div style="width: 25%; text-align: center;">
+                        <p style="font-weight: bold; color: #00a3bf;">Phase 3</p>
+                        <p style="color: #555; font-size: 14px;">Integration</p>
+                    </div>
+                    <div style="width: 25%; text-align: center;">
+                        <p style="font-weight: bold; color: #777;">Phase 4</p>
+                        <p style="color: #555; font-size: 14px;">Optimization</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: flex; margin-bottom: 30px;">
+                <div style="min-width: 80px; height: 80px; background-color: #e6f7f9; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                    <span style="color: #00a3bf; font-size: 30px; font-weight: bold;">1</span>
+                </div>
+                <div>
+                    <h3 style="color: #333; font-weight: bold;">Security Assessment (4 weeks)</h3>
+                    <ul style="color: #555; padding-left: 20px;">
+                        <li>Comprehensive security audit of existing infrastructure</li>
+                        <li>Identify vulnerabilities and integration points</li>
+                        <li>Define implementation strategy and success metrics</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="display: flex; margin-bottom: 30px;">
+                <div style="min-width: 80px; height: 80px; background-color: #e6f7f9; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                    <span style="color: #00a3bf; font-size: 30px; font-weight: bold;">2</span>
+                </div>
+                <div>
+                    <h3 style="color: #333; font-weight: bold;">Implementation (8 weeks)</h3>
+                    <ul style="color: #555; padding-left: 20px;">
+                        <li>Deploy core RAIN™ infrastructure and monitoring systems</li>
+                        <li>Configure AI models and threat detection algorithms</li>
+                        <li>Implement quantum-resistant encryption protocols</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="display: flex; margin-bottom: 30px;">
+                <div style="min-width: 80px; height: 80px; background-color: #e6f7f9; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                    <span style="color: #00a3bf; font-size: 30px; font-weight: bold;">3</span>
+                </div>
+                <div>
+                    <h3 style="color: #333; font-weight: bold;">Integration (6 weeks)</h3>
+                    <ul style="color: #555; padding-left: 20px;">
+                        <li>Connect to existing security systems and data sources</li>
+                        <li>Integrate with identity management and access control</li>
+                        <li>Configure automated response workflows</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="display: flex; margin-bottom: 30px;">
+                <div style="min-width: 80px; height: 80px; background-color: #f5f7fa; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                    <span style="color: #777; font-size: 30px; font-weight: bold;">4</span>
+                </div>
+                <div>
+                    <h3 style="color: #777; font-weight: bold;">Optimization (Ongoing)</h3>
+                    <ul style="color: #555; padding-left: 20px;">
+                        <li>Continuous improvement of detection algorithms</li>
+                        <li>Regular security posture assessments</li>
+                        <li>Threat intelligence updates and system expansion</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with tabs[4]:
+        st.markdown("""
+        <div style="padding: 40px 20px; background-color: white; border-radius: 10px;">
+            <h2 style="color: #333; font-weight: bold; margin-bottom: 20px;">Executive Pitch</h2>
+            
+            <div style="background-color: #f5f7fa; padding: 25px; border-radius: 10px; margin-bottom: 30px;">
+                <h3 style="color: #00a3bf; font-weight: bold; margin-bottom: 15px;">The Problem</h3>
+                <p style="color: #555; font-size: 16px; line-height: 1.6;">
+                    Organizations are facing an unprecedented convergence of security challenges: sophisticated AI-powered attacks, 
+                    the looming quantum threat that will break current encryption, and increasingly complex hybrid environments 
+                    that traditional security models can't protect.
+                </p>
+            </div>
+            
+            <div style="background-color: #f5f7fa; padding: 25px; border-radius: 10px; margin-bottom: 30px;">
+                <h3 style="color: #00a3bf; font-weight: bold; margin-bottom: 15px;">Our Solution</h3>
+                <p style="color: #555; font-size: 16px; line-height: 1.6;">
+                    RAIN™ is a revolutionary security platform that combines quantum-resistant encryption, 
+                    AI-driven threat detection, and zero trust architecture in a unified solution that safeguards organizations 
+                    against both current and future threats.
+                </p>
+            </div>
+            
+            <div style="background-color: #f5f7fa; padding: 25px; border-radius: 10px; margin-bottom: 30px;">
+                <h3 style="color: #00a3bf; font-weight: bold; margin-bottom: 15px;">Market Opportunity</h3>
+                <ul style="color: #555; font-size: 16px; line-height: 1.6; padding-left: 20px;">
+                    <li>$178B global cybersecurity market with 12.3% CAGR</li>
+                    <li>Quantum security segment projected to reach $35B by 2028</li>
+                    <li>Enterprises allocating 15% more budget to security annually</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <button style="background-color: #00a3bf; color: white; border: none; border-radius: 25px; padding: 12px 25px; font-weight: bold; margin-right: 15px;">
+                    Download Pitch Deck
+                </button>
+                <button style="background-color: white; color: #00a3bf; border: 1px solid #00a3bf; border-radius: 25px; padding: 12px 25px; font-weight: bold;">
+                    Book a Demo
+                </button>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    # Footer
+    st.markdown("""
+    <div style="background-color: #333; color: white; padding: 40px 20px; margin-top: 40px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+            <div style="width: 30%;">
+                <h3 style="color: #00a3bf; font-weight: bold; margin-bottom: 20px;">RAIN™</h3>
+                <p style="color: #ccc; font-size: 14px;">
+                    The future of quantum-resistant, AI-driven enterprise security. Protecting what matters most.
+                </p>
+            </div>
+            <div style="width: 20%;">
+                <h4 style="color: white; font-weight: bold; margin-bottom: 15px;">Company</h4>
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">About Us</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">Careers</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">Partners</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">Contact</a></li>
+                </ul>
+            </div>
+            <div style="width: 20%;">
+                <h4 style="color: white; font-weight: bold; margin-bottom: 15px;">Resources</h4>
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">Documentation</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">White Papers</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">Case Studies</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">Blog</a></li>
+                </ul>
+            </div>
+            <div style="width: 20%;">
+                <h4 style="color: white; font-weight: bold; margin-bottom: 15px;">Connect</h4>
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">LinkedIn</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">Twitter</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">YouTube</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #ccc; text-decoration: none;">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+        <div style="border-top: 1px solid #555; padding-top: 20px; text-align: center; color: #aaa; font-size: 12px;">
+            © 2025 RAIN Enterprise Security, Inc. All rights reserved. | Privacy Policy | Terms of Service
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
         """, unsafe_allow_html=True)
     
     with col2:
