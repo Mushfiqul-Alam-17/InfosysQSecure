@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -702,8 +703,8 @@ def display_ai_video_presentation():
         Access the full experience by clicking the button to visit the official website.
         """)
         
-        # Mock website URL (would be a real URL in production)
-        website_url = "https://rain-enterprise-security.com" 
+        # Real website URL for redirection
+        website_url = "https://q-secure-infosys.vercel.app/"
         
         st.markdown("""
         ### Preview
@@ -754,10 +755,23 @@ def display_ai_video_presentation():
         st.markdown("### Website Access")
         if st.button("🌐 Visit RAIN™ Website", type="primary"):
             st.success("Redirecting to RAIN™ Enterprise Website...")
-            # In a real app, this would redirect to the actual website
-            # For demonstration purposes, we'll just show a success message
             
-            # Show simulated redirect animation
+            # Use HTML to automatically redirect to the external website
+            html = f'''
+            <html>
+                <head>
+                    <meta http-equiv="refresh" content="0;url={website_url}" />
+                    <script>
+                        window.open("{website_url}", "_blank").focus();
+                    </script>
+                </head>
+                <body>
+                    <p>Redirecting to <a href="{website_url}" target="_blank">{website_url}</a>...</p>
+                </body>
+            </html>
+            '''
+            
+            # Show a simulated progress animation
             progress_text = "Redirecting to external website..."
             progress_bar = st.progress(0)
             for i in range(100):
@@ -765,12 +779,16 @@ def display_ai_video_presentation():
                 progress_bar.progress(i + 1)
                 time.sleep(0.01)
             
+            # Display the redirect link
             st.markdown(f"""
             <div style="padding: 20px; background-color: #f8f9fa; border-radius: 10px; margin-top: 20px; text-align: center;">
                 <p>If you're not automatically redirected, please click:</p>
                 <a href="{website_url}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #0068C9; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Open Website</a>
             </div>
             """, unsafe_allow_html=True)
+            
+            # Use Streamlit's HTML components to inject the redirect script
+            components.html(html, height=0)
         
         # Add supporting info section
         st.markdown("### Why Visit Our Website?")
