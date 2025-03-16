@@ -341,24 +341,8 @@ class ZeroTrustSecuritySystem:
             # Create visualization comparing both algorithms
             fig = self.create_detection_visualization(typing_speed, mouse_speed, if_is_anomaly, svm_is_anomaly)
             
-            # Return results with proper structure
-            return {
-                'overall_verdict': "SUSPICIOUS (Both Algorithms)" if (if_is_anomaly and svm_is_anomaly) else
-                                 "SUSPICIOUS (Single Algorithm)" if (if_is_anomaly or svm_is_anomaly) else
-                                 "NORMAL",
-                'isolation_forest': {
-                    'is_anomaly': if_is_anomaly,
-                    'confidence': if_confidence,
-                    'verdict': "Suspicious" if if_is_anomaly else "Normal"
-                },
-                'one_class_svm': {
-                    'is_anomaly': svm_is_anomaly,
-                    'confidence': svm_confidence,
-                    'verdict': "Suspicious" if svm_is_anomaly else "Normal"
-                },
-                'user_data': user_data,
-                'plot': fig
-            }
+            # Determine overall security verdict
+            if if_is_anomaly and svm_is_anomaly:
                 verdict = "SUSPICIOUS (Both Algorithms)"
                 threat_level = "High"
             elif if_is_anomaly or svm_is_anomaly:
