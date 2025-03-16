@@ -595,7 +595,7 @@ elif page == "User Behavior Analysis":
         <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
             <div style="background-color: #0068C9; color: white; padding: 10px; border-radius: 5px 5px 0 0; display: flex; justify-content: space-between; align-items: center;">
                 <div>🔒 secure.banking-portal.com</div>
-                <div>User: John.Smith</div>
+                <div>User: Mushfiqul.Alam</div>
             </div>
             <div style="padding: 15px; background-color: white; border: 1px solid #ddd; border-top: none; border-radius: 0 0 5px 5px;">
                 <h3 style="color: #333;">Welcome to SecureBank Online</h3>
@@ -767,21 +767,234 @@ elif page == "User Behavior Analysis":
         st.subheader("Attacker Detection Simulation")
         st.markdown("Experience how the system detects and blocks malicious behavior in real-time.")
         
-        # Simulated attacker interface
+        # Enhanced banking portal interface
+        banking_action = st.selectbox(
+            "Choose Banking Action",
+            ["Home", "View Accounts", "Make a Transfer", "Pay Bills", "View Statements"],
+            key="banking_action"
+        )
+        
+        # Simulate a realistic banking portal interface
         st.markdown("""
         <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
-            <div style="background-color: #0068C9; color: white; padding: 10px; border-radius: 5px 5px 0 0; display: flex; justify-content: space-between; align-items: center;">
-                <div>🔒 secure.banking-portal.com</div>
-                <div>User: John.Smith</div>
+            <div style="background-color: #0068C9; color: white; padding: 12px; border-radius: 5px 5px 0 0; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center;">
+                    <div style="margin-right: 10px;">🔒</div>
+                    <div>secure.trust-ebanking.com</div>
+                </div>
+                <div>User: Mushfiqul.Alam</div>
             </div>
             <div style="padding: 15px; background-color: white; border: 1px solid #ddd; border-top: none; border-radius: 0 0 5px 5px;">
-                <h3 style="color: #333;">Welcome to SecureBank Online</h3>
-                <p>Select an action below:</p>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="color: #333; margin: 0;">Welcome to TrustBank Online</h3>
+                    <div style="color: #666; font-size: 14px;">Last login: Today, 10:42 AM</div>
+                </div>
+                
+                <div style="display: flex; margin-bottom: 20px;">
+                    <div style="background-color: #f0f7ff; padding: 10px; border-radius: 5px; width: 100%;">
+                        <p style="margin: 0; color: #0068C9; font-weight: bold;">Good afternoon, Mushfiqul!</p>
+                        <p style="margin: 5px 0 0 0; color: #555;">Your accounts are in good standing.</p>
+                    </div>
+                </div>
+        """, unsafe_allow_html=True)
+        
+        # Display different content based on selected banking action
+        if banking_action == "Home" or banking_action == "View Accounts":
+            st.markdown("""
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 10px 0; color: #333;">Your Accounts</h4>
+                <div style="border: 1px solid #eee; border-radius: 5px; padding: 12px; margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <div style="font-weight: bold; color: #333;">Primary Checking</div>
+                        <div style="font-weight: bold; color: #333;">$12,857.42</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div style="color: #666; font-size: 14px;">Account #...4872</div>
+                        <div style="color: #0a0; font-size: 14px;">+$1,250.00 today</div>
+                    </div>
+                </div>
+                
+                <div style="border: 1px solid #eee; border-radius: 5px; padding: 12px; margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <div style="font-weight: bold; color: #333;">Savings Account</div>
+                        <div style="font-weight: bold; color: #333;">$34,928.10</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div style="color: #666; font-size: 14px;">Account #...2983</div>
+                        <div style="color: #0a0; font-size: 14px;">+$87.66 interest this month</div>
+                    </div>
+                </div>
+                
+                <div style="border: 1px solid #eee; border-radius: 5px; padding: 12px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <div style="font-weight: bold; color: #333;">Investment Portfolio</div>
+                        <div style="font-weight: bold; color: #333;">$128,530.76</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div style="color: #666; font-size: 14px;">14 holdings</div>
+                        <div style="color: #0a0; font-size: 14px;">+2.4% this week</div>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+        elif banking_action == "Make a Transfer":
+            st.markdown("""
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 15px 0; color: #333;">Make a Transfer</h4>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">From Account</label>
+                    <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option>Primary Checking (...4872) - $12,857.42</option>
+                        <option>Savings Account (...2983) - $34,928.10</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">To Account</label>
+                    <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option>Savings Account (...2983) - $34,928.10</option>
+                        <option>Primary Checking (...4872) - $12,857.42</option>
+                        <option>Credit Card Payment (...5623)</option>
+                        <option>External Account/Recipient</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">Amount</label>
+                    <input type="text" placeholder="$0.00" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">When</label>
+                    <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option>Today</option>
+                        <option>Tomorrow</option>
+                        <option>Choose Date</option>
+                        <option>Set up recurring transfer</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">Memo (Optional)</label>
+                    <input type="text" placeholder="Add a note" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+        elif banking_action == "Pay Bills":
+            st.markdown("""
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 15px 0; color: #333;">Pay Bills</h4>
+                
+                <div style="border: 1px solid #eee; border-radius: 5px; padding: 12px; margin-bottom: 15px; background-color: #fff8e1;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <div style="font-weight: bold; color: #333;">City Electric Utility</div>
+                        <div style="font-weight: bold; color: #d32f2f;">$142.87</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div style="color: #666; font-size: 14px;">Due in 3 days</div>
+                        <button style="background-color: #0068C9; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 14px;">Pay Now</button>
+                    </div>
+                </div>
+                
+                <div style="border: 1px solid #eee; border-radius: 5px; padding: 12px; margin-bottom: 15px; background-color: #fff;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <div style="font-weight: bold; color: #333;">Mortgage Payment</div>
+                        <div style="font-weight: bold; color: #333;">$1,876.50</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div style="color: #666; font-size: 14px;">Due in 12 days</div>
+                        <button style="background-color: #0068C9; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 14px;">Pay Now</button>
+                    </div>
+                </div>
+                
+                <div style="border: 1px solid #eee; border-radius: 5px; padding: 12px; margin-bottom: 15px; background-color: #fff;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <div style="font-weight: bold; color: #333;">Internet Service</div>
+                        <div style="font-weight: bold; color: #333;">$89.99</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div style="color: #666; font-size: 14px;">Due in 18 days</div>
+                        <button style="background-color: #0068C9; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 14px;">Pay Now</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px; margin-right: 10px;">Add New Payee</button>
+                    <button style="background-color: white; color: #0068C9; border: 1px solid #0068C9; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">View Payment History</button>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+        elif banking_action == "View Statements":
+            st.markdown("""
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 15px 0; color: #333;">Account Statements</h4>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">Select Account</label>
+                    <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 15px;">
+                        <option>Primary Checking (...4872)</option>
+                        <option>Savings Account (...2983)</option>
+                        <option>Credit Card (...5623)</option>
+                    </select>
+                </div>
+                
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                    <thead>
+                        <tr style="background-color: #f5f5f5; border-bottom: 2px solid #ddd;">
+                            <th style="padding: 10px; text-align: left;">Statement Period</th>
+                            <th style="padding: 10px; text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px;">March 1 - March 31, 2025</td>
+                            <td style="padding: 10px; text-align: right;">
+                                <a href="#" style="color: #0068C9; text-decoration: none; margin-right: 10px;">View</a>
+                                <a href="#" style="color: #0068C9; text-decoration: none;">Download</a>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px;">February 1 - February 29, 2025</td>
+                            <td style="padding: 10px; text-align: right;">
+                                <a href="#" style="color: #0068C9; text-decoration: none; margin-right: 10px;">View</a>
+                                <a href="#" style="color: #0068C9; text-decoration: none;">Download</a>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px;">January 1 - January 31, 2025</td>
+                            <td style="padding: 10px; text-align: right;">
+                                <a href="#" style="color: #0068C9; text-decoration: none; margin-right: 10px;">View</a>
+                                <a href="#" style="color: #0068C9; text-decoration: none;">Download</a>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px;">December 1 - December 31, 2024</td>
+                            <td style="padding: 10px; text-align: right;">
+                                <a href="#" style="color: #0068C9; text-decoration: none; margin-right: 10px;">View</a>
+                                <a href="#" style="color: #0068C9; text-decoration: none;">Download</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 15px;">
+                    <button style="background-color: white; color: #0068C9; border: 1px solid #0068C9; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">Request Paper Statement</button>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+        # Footer buttons for the banking interface
+        st.markdown("""
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">View Accounts</button>
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Make a Transfer</button>
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Pay Bills</button>
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">View Statements</button>
+                    <button style="background-color: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-left: auto;">Logout</button>
                 </div>
             </div>
         </div>
