@@ -446,8 +446,8 @@ class EnterpriseThreatDashboard:
                 actors_count = len(threat_actors_list)
                 
                 # Generate matching confidence and dates arrays
-                confidence_scores = [92, 88, 76, 85, 79][:actors_count]
-                first_seen_dates = ["2023-11-15", "2024-01-03", "2024-02-27", "2024-01-18", "2023-12-10"][:actors_count]
+                confidence_scores = [92, 88, 76, 85, 79, 83][:actors_count]
+                first_seen_dates = ["2023-11-15", "2024-01-03", "2024-02-27", "2024-01-18", "2023-12-10", "2024-02-05"][:actors_count]
                 
                 threat_actors = pd.DataFrame({
                     "Actor": threat_actors_list,
