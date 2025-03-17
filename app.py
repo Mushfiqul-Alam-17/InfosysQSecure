@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit.components.v1 import html
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import IsolationForest
@@ -864,12 +865,55 @@ elif page == "User Behavior Analysis":
                     )
                 
                 with col3:
-                    st.metric(
-                        label="Overall Security Score", 
-                        value="96%", 
-                        delta="2%",
-                        delta_color="normal"
-                    )
+                    # Create animated security score with lightning bolt effect
+                    security_score = 96
+                    
+                    # Define the HTML without f-string for the CSS animations part
+                    css_part = """
+                    <style>
+                        @keyframes lightning-flash {
+                            0% { background: transparent; }
+                            10% { background: rgba(255, 255, 255, 0.8); }
+                            20% { background: transparent; }
+                            30% { background: rgba(255, 255, 255, 0.6); }
+                            40% { background: transparent; }
+                            60% { background: rgba(255, 255, 255, 0.2); }
+                            100% { background: transparent; }
+                        }
+                        
+                        .lightning {
+                            animation: lightning-flash 5s infinite;
+                            clip-path: polygon(
+                                50% 0%, 
+                                65% 30%, 
+                                100% 30%, 
+                                60% 50%, 
+                                75% 70%, 
+                                40% 70%, 
+                                40% 100%, 
+                                25% 60%, 
+                                0% 60%, 
+                                35% 40%
+                            );
+                        }
+                    </style>
+                    """
+                    
+                    # Now create the HTML with the dynamic content separate from the CSS
+                    security_score_html = f"""
+                    <div style="background: linear-gradient(135deg, #051937, #004d7a, #008793); border-radius: 10px; padding: 15px; color: white; text-align: center; position: relative; overflow: hidden;">
+                        <h3 style="margin-top: 0; margin-bottom: 5px; font-size: 18px;">Security Score</h3>
+                        <div id="lightning-container" style="position: relative; height: 150px; width: 100%;">
+                            <div class="lightning" style="position: absolute; top: 0; left: 40%; width: 20%; height: 100%; z-index: 10;"></div>
+                            <div class="score-display" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 20;">
+                                <div class="score-value" style="font-size: 48px; font-weight: bold;">{security_score}<span style="font-size: 28px;">%</span></div>
+                                <div style="font-size: 16px; color: #4eff9f;">+2% from last week</div>
+                            </div>
+                        </div>
+                        {css_part}
+                    </div>
+                    """
+                    html(security_score_html, height=200)
     
     with tab2:
         st.subheader("Attacker Detection Simulation")
@@ -906,8 +950,7 @@ elif page == "User Behavior Analysis":
                     </div>
                 </div>
         """
-        # Use st.components.html to render HTML properly
-        from streamlit.components.v1 import html
+        # Use the html component to render HTML properly
         html(header_html, height=220)
         
         # Display different content based on selected banking action

@@ -170,32 +170,122 @@ class EnterpriseThreatDashboard:
             st.session_state.security_posture = max(70, st.session_state.security_posture - 5)
     
     def display_security_posture(self):
-        """Display the enterprise security posture score"""
+        """Display the enterprise security posture score with animated lightning bolt effect"""
         score = st.session_state.security_posture
         
         # Determine color based on score
         if score >= 80:
             color = "#2e7d32"  # Green
             status = "Strong"
+            gradient = "linear-gradient(135deg, #004d3b, #037a2a, #20a757)"
         elif score >= 60:
             color = "#ff9800"  # Orange
             status = "Caution"
+            gradient = "linear-gradient(135deg, #a54a00, #dd7b14, #ffa726)"
         else:
             color = "#c62828"  # Red
             status = "At Risk"
+            gradient = "linear-gradient(135deg, #7f0000, #c62828, #e53935)"
             
-        # Create a styled container for the security posture
-        st.markdown(f"""
-        <div style="padding: 15px; border-radius: 5px; background-color: {color}20; border-left: 5px solid {color};">
-            <h3 style="margin-top: 0; color: {color};">Enterprise Security Posture: {status}</h3>
-            <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                <div style="flex-grow: 1; height: 8px; background-color: #e0e0e0; border-radius: 4px;">
-                    <div style="width: {score}%; height: 100%; background-color: {color}; border-radius: 4px;"></div>
+        # Use streamlit components.html for more advanced visualization
+        from streamlit.components.v1 import html
+        
+        # Create enhanced security posture display with lightning bolt animation
+        
+        # First, define the CSS part as a separate string to avoid f-string parsing issues
+        css_part = """
+        <style>
+            @keyframes lightning-flash {
+                0% { opacity: 0; }
+                10% { opacity: 0.8; background: white; }
+                15% { opacity: 0.2; }
+                20% { opacity: 0.9; background: rgba(255,255,255,0.9); }
+                25% { opacity: 0.3; }
+                30% { opacity: 0; }
+                100% { opacity: 0; }
+            }
+            
+            @keyframes pulse {
+                0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
+                70% { transform: scale(1.2); opacity: 0.7; box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+                100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+            }
+            
+            .pulse-circle {
+                animation: pulse 2s infinite;
+            }
+            
+            .lightning {
+                opacity: 0;
+                clip-path: polygon(
+                    50% 0%, 
+                    65% 30%, 
+                    100% 30%, 
+                    60% 50%, 
+                    75% 70%, 
+                    40% 70%, 
+                    40% 100%, 
+                    25% 60%, 
+                    0% 60%, 
+                    35% 40%
+                );
+            }
+            
+            .bolt1 {
+                animation: lightning-flash 7s infinite;
+                animation-delay: 1s;
+            }
+            
+            .bolt2 {
+                animation: lightning-flash 8s infinite;
+                animation-delay: 3s;
+            }
+            
+            .bolt3 {
+                animation: lightning-flash 6s infinite;
+                animation-delay: 5s;
+            }
+        </style>
+        """
+        
+        # Now create the HTML with dynamic content
+        security_posture_html = f"""
+        <div style="padding: 20px; border-radius: 10px; background: {gradient}; color: white; position: relative; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <!-- Animated lightning bolts in the background -->
+            <div id="lightning-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden;">
+                <div class="lightning bolt1" style="position: absolute; top: 10%; left: 15%; height: 60%; width: 8%;"></div>
+                <div class="lightning bolt2" style="position: absolute; top: 5%; left: 60%; height: 50%; width: 6%;"></div>
+                <div class="lightning bolt3" style="position: absolute; top: 40%; left: 80%; height: 45%; width: 5%;"></div>
+            </div>
+            
+            <!-- Content container above the lightning -->
+            <div style="position: relative; z-index: 2;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="margin: 0; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">Security Posture</h2>
+                    <div class="pulse-circle" style="background-color: white; width: 15px; height: 15px; border-radius: 50%; margin-right: 10px;"></div>
                 </div>
-                <span style="margin-left: 15px; font-size: 22px; font-weight: bold; color: {color};">{score}/100</span>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin: 25px 0 15px 0;">
+                    <div style="font-size: 18px; font-weight: bold;">Status: <span style="font-size: 22px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">{status}</span></div>
+                    <div style="font-size: 42px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.4);">{score}</div>
+                </div>
+                
+                <div style="height: 15px; background-color: rgba(255,255,255,0.3); border-radius: 10px; width: 100%; margin-bottom: 15px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);">
+                    <div style="height: 100%; width: {score}%; background-color: white; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);"></div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; font-size: 14px; opacity: 0.9;">
+                    <div>Last updated: Today at {datetime.now().strftime('%H:%M:%S')}</div>
+                    <div>Trend: {'+2 points' if score > 70 else '-1 point'} this week</div>
+                </div>
             </div>
         </div>
-        """, unsafe_allow_html=True)
+        
+        {css_part}
+        """
+        
+        # Display using HTML component
+        html(security_posture_html, height=250)
         
     def display_active_threats_summary(self):
         """Display a summary of active threats"""
