@@ -884,7 +884,7 @@ elif page == "User Behavior Analysis":
         
         # Simulate a realistic banking portal interface
         # Header section of the banking portal
-        st.markdown("""
+        header_html = """
         <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
             <div style="background-color: #0068C9; color: white; padding: 12px; border-radius: 5px 5px 0 0; display: flex; justify-content: space-between; align-items: center;">
                 <div style="display: flex; align-items: center;">
@@ -905,11 +905,14 @@ elif page == "User Behavior Analysis":
                         <p style="margin: 5px 0 0 0; color: #555;">Your accounts are in good standing.</p>
                     </div>
                 </div>
-        """, unsafe_allow_html=True)
+        """
+        # Use st.components.html to render HTML properly
+        from streamlit.components.v1 import html
+        html(header_html, height=220)
         
         # Display different content based on selected banking action
         if banking_action == "Home" or banking_action == "View Accounts":
-            st.markdown("""
+            accounts_html = """
             <div style="margin-bottom: 20px;">
                 <h4 style="margin: 0 0 10px 0; color: #333;">Your Accounts</h4>
                 <div style="border: 1px solid #eee; border-radius: 5px; padding: 12px; margin-bottom: 10px;">
@@ -945,10 +948,11 @@ elif page == "User Behavior Analysis":
                     </div>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """
+            html(accounts_html, height=300)
             
         elif banking_action == "Make a Transfer":
-            st.markdown("""
+            transfer_html = """
             <div style="margin-bottom: 20px;">
                 <h4 style="margin: 0 0 15px 0; color: #333;">Make a Transfer</h4>
                 
@@ -990,10 +994,11 @@ elif page == "User Behavior Analysis":
                     <input type="text" placeholder="Add a note" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """
+            html(transfer_html, height=350)
             
         elif banking_action == "Pay Bills":
-            st.markdown("""
+            bills_html = """
             <div style="margin-bottom: 20px;">
                 <h4 style="margin: 0 0 15px 0; color: #333;">Pay Bills</h4>
                 
@@ -1035,10 +1040,11 @@ elif page == "User Behavior Analysis":
                     <button style="background-color: white; color: #0068C9; border: 1px solid #0068C9; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">View Payment History</button>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """
+            html(bills_html, height=350)
             
         elif banking_action == "View Statements":
-            st.markdown("""
+            statements_html = """
             <div style="margin-bottom: 20px;">
                 <h4 style="margin: 0 0 15px 0; color: #333;">Account Statements</h4>
                 
@@ -1094,10 +1100,11 @@ elif page == "User Behavior Analysis":
                     <button style="background-color: white; color: #0068C9; border: 1px solid #0068C9; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">Request Paper Statement</button>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """
+            html(statements_html, height=400)
             
         # Footer buttons for the banking interface
-        st.markdown("""
+        footer_html = """
                 <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">View Accounts</button>
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Make a Transfer</button>
@@ -1107,7 +1114,8 @@ elif page == "User Behavior Analysis":
                 </div>
             </div>
         </div>
-        """, unsafe_allow_html=True)
+        """
+        html(footer_html, height=80)
         
         # Real attack demonstration
         st.markdown("### Real Attack Demonstration & Defense")
