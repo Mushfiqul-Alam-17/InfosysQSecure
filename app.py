@@ -882,7 +882,8 @@ elif page == "User Behavior Analysis":
             key="banking_action"
         )
         
-        # Simulate a realistic banking portal interface with complete HTML structure
+        # Simulate a realistic banking portal interface
+        # Header section of the banking portal
         st.markdown("""
         <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
             <div style="background-color: #0068C9; color: white; padding: 12px; border-radius: 5px 5px 0 0; display: flex; justify-content: space-between; align-items: center;">
