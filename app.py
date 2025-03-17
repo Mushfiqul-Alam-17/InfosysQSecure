@@ -1378,7 +1378,7 @@ elif page == "User Behavior Analysis":
                     - **Attribution Indicators**: Attack patterns consistent with financially motivated nation-state group
                     """
                 
-                st.markdown(detection_details)
+                st.markdown(detection_details, unsafe_allow_html=True)
                 
                 # Automated response taken
                 st.markdown("### Automated Security Response")

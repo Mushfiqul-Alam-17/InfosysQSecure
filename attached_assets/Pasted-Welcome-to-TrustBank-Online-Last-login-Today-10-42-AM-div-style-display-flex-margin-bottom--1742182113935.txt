@@ -1,0 +1,71 @@
+Welcome to TrustBank Online
+Last login: Today, 10:42 AM
+<div style="display: flex; margin-bottom: 20px;">
+        <div style="background-color: #f0f7ff; padding: 10px; border-radius: 5px; width: 100%;">
+            <p style="margin: 0; color: #0068C9; font-weight: bold;">Good afternoon, Mushfiqul!</p>
+            <p style="margin: 5px 0 0 0; color: #555;">Your accounts are in good standing.</p>
+        </div>
+    </div>
+
+Your Accounts
+Primary Checking
+$12,857.42
+Account #...4872
++$1,250.00 today
+<div style="border: 1px solid #eee; border-radius: 5px; padding: 12px; margin-bottom: 10px;">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+        <div style="font-weight: bold; color: #333;">Savings Account</div>
+        <div style="font-weight: bold; color: #333;">$34,928.10</div>
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+        <div style="color: #666; font-size: 14px;">Account #...2983</div>
+        <div style="color: #0a0; font-size: 14px;">+$87.66 interest this month</div>
+    </div>
+</div>
+
+<div style="border: 1px solid #eee; border-radius: 5px; padding: 12px;">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+        <div style="font-weight: bold; color: #333;">Investment Portfolio</div>
+        <div style="font-weight: bold; color: #333;">$128,530.76</div>
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+        <div style="color: #666; font-size: 14px;">14 holdings</div>
+        <div style="color: #0a0; font-size: 14px;">+2.4% this week</div>
+    </div>
+</div>
+
+View Accounts
+Make a Transfer
+Pay Bills
+View Statements
+Logout
+Real Attack Demonstration & Defense
+Attack Vector
+
+
+Credential Stuffing
+
+
+Man-in-the-Browser
+
+
+Keystroke Timing Attack
+
+
+Advanced Persistent Threat
+
+Attack Technique: Attackers use stolen username/password combinations from data breaches to attempt access.
+
+How it works:
+
+Attacker obtains breached credentials from dark web
+Uses automated tools to try thousands of credentials rapidly
+Exploits password reuse across multiple sites
+Why it's dangerous: Around 65% of people reuse passwords across multiple sites.
+
+Live Attack Execution & Defense
+Attack Progress Stage:
+
+Reconnaissance & Planning
+Data/Transaction Targeting
+
