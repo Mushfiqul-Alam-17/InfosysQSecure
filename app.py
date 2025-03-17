@@ -79,9 +79,9 @@ st.markdown("""
         color: #b76e00;
     }
     .alert-box.error {
-        background-color: #ffebee;
-        border-left: 5px solid #F44336;
-        color: #c62828;
+        background-color: #e3f2fd;
+        border-left: 5px solid #2196F3;
+        color: #0d47a1;
     }
     
     /* Data visualization containers */
@@ -1153,7 +1153,7 @@ elif page == "User Behavior Analysis":
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Make a Transfer</button>
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Pay Bills</button>
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">View Statements</button>
-                    <button style="background-color: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-left: auto;">Logout</button>
+                    <button style="background-color: #2196F3; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-left: auto;">Logout</button>
                 </div>
             </div>
         </div>
