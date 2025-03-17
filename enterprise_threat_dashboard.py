@@ -328,7 +328,7 @@ class EnterpriseThreatDashboard:
             st.markdown("### Most Recent Threat")
             
             if most_recent["threat_level"] == "Critical":
-                alert_color = "#0d47a1"  # Blue
+                alert_color = "#c62828"  # Red
             elif most_recent["threat_level"] == "High":
                 alert_color = "#ff9800"  # Orange
             else:
@@ -363,7 +363,7 @@ class EnterpriseThreatDashboard:
         
         # Create mapped colors for threat levels
         colors = {
-            "Critical": "#0d47a1",  # Blue
+            "Critical": "#c62828",  # Red
             "High": "#ff9800",      # Orange
             "Medium": "#ffeb3b",    # Yellow
             "Low": "#4caf50",       # Green
@@ -516,11 +516,11 @@ class EnterpriseThreatDashboard:
                 </div>
                 
                 <!-- Simulated threat indicators on map -->
-                <div style="position: absolute; top: 150px; left: 120px; width: 8px; height: 8px; background-color: #1976D2; border-radius: 50%; box-shadow: 0 0 10px #1976D2;"></div>
-                <div style="position: absolute; top: 180px; left: 250px; width: 6px; height: 6px; background-color: #2196F3; border-radius: 50%; box-shadow: 0 0 8px #2196F3;"></div>
-                <div style="position: absolute; top: 120px; left: 320px; width: 10px; height: 10px; background-color: #0d47a1; border-radius: 50%; box-shadow: 0 0 12px #0d47a1;"></div>
-                <div style="position: absolute; top: 200px; left: 180px; width: 7px; height: 7px; background-color: #42a5f5; border-radius: 50%; box-shadow: 0 0 9px #42a5f5;"></div>
-                <div style="position: absolute; top: 140px; left: 380px; width: 6px; height: 6px; background-color: #64b5f6; border-radius: 50%; box-shadow: 0 0 8px #64b5f6;"></div>
+                <div style="position: absolute; top: 150px; left: 120px; width: 8px; height: 8px; background-color: #ff5252; border-radius: 50%; box-shadow: 0 0 10px #ff5252;"></div>
+                <div style="position: absolute; top: 180px; left: 250px; width: 6px; height: 6px; background-color: #ff9800; border-radius: 50%; box-shadow: 0 0 8px #ff9800;"></div>
+                <div style="position: absolute; top: 120px; left: 320px; width: 10px; height: 10px; background-color: #ff5252; border-radius: 50%; box-shadow: 0 0 12px #ff5252;"></div>
+                <div style="position: absolute; top: 200px; left: 180px; width: 7px; height: 7px; background-color: #ffeb3b; border-radius: 50%; box-shadow: 0 0 9px #ffeb3b;"></div>
+                <div style="position: absolute; top: 140px; left: 380px; width: 6px; height: 6px; background-color: #ff9800; border-radius: 50%; box-shadow: 0 0 8px #ff9800;"></div>
             </div>
             """, unsafe_allow_html=True)
             
@@ -691,14 +691,14 @@ class EnterpriseThreatDashboard:
             st.markdown("### Security Notifications")
             
             st.markdown("""
-            <div style="border-left: 4px solid #0d47a1; padding-left: 15px; margin-bottom: 15px;">
-                <div style="font-weight: bold; color: #0d47a1;">Critical: Unusual Admin Activity</div>
+            <div style="border-left: 4px solid #f44336; padding-left: 15px; margin-bottom: 15px;">
+                <div style="font-weight: bold; color: #f44336;">Critical: Unusual Admin Activity</div>
                 <div style="font-size: 12px; color: #666;">2 minutes ago</div>
                 <div>Administrative account accessed outside business hours</div>
             </div>
             
-            <div style="border-left: 4px solid #1976D2; padding-left: 15px; margin-bottom: 15px;">
-                <div style="font-weight: bold; color: #1976D2;">Warning: Multiple Failed Logins</div>
+            <div style="border-left: 4px solid #ff9800; padding-left: 15px; margin-bottom: 15px;">
+                <div style="font-weight: bold; color: #ff9800;">Warning: Multiple Failed Logins</div>
                 <div style="font-size: 12px; color: #666;">15 minutes ago</div>
                 <div>5 failed login attempts for user jsmith</div>
             </div>

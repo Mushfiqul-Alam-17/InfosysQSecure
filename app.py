@@ -79,9 +79,9 @@ st.markdown("""
         color: #b76e00;
     }
     .alert-box.error {
-        background-color: #e3f2fd;
-        border-left: 5px solid #2196F3;
-        color: #0d47a1;
+        background-color: #ffebee;
+        border-left: 5px solid #F44336;
+        color: #c62828;
     }
     
     /* Data visualization containers */
@@ -1048,7 +1048,7 @@ elif page == "User Behavior Analysis":
                 <div style="border: 1px solid #eee; border-radius: 5px; padding: 12px; margin-bottom: 15px; background-color: #fff8e1;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                         <div style="font-weight: bold; color: #333;">City Electric Utility</div>
-                        <div style="font-weight: bold; color: #1976D2;">$142.87</div>
+                        <div style="font-weight: bold; color: #d32f2f;">$142.87</div>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
                         <div style="color: #666; font-size: 14px;">Due in 3 days</div>
@@ -1153,7 +1153,7 @@ elif page == "User Behavior Analysis":
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Make a Transfer</button>
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Pay Bills</button>
                     <button style="background-color: #0068C9; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">View Statements</button>
-                    <button style="background-color: #2196F3; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-left: auto;">Logout</button>
+                    <button style="background-color: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-left: auto;">Logout</button>
                 </div>
             </div>
         </div>
@@ -1266,8 +1266,8 @@ elif page == "User Behavior Analysis":
                 
                 # Create detailed security alert with actual attack TTP (Tactics, Techniques, Procedures)
                 st.markdown(f"""
-                <div style="border: 2px solid #2196F3; border-radius: 5px; padding: 15px; background-color: #e3f2fd; margin-top: 15px;">
-                    <h4 style="margin-top: 0; color: #0d47a1;">Real-Time Security Alert</h4>
+                <div style="border: 2px solid #ff5252; border-radius: 5px; padding: 15px; background-color: #ffebee; margin-top: 15px;">
+                    <h4 style="margin-top: 0; color: #c62828;">Real-Time Security Alert</h4>
                     <ul style="margin-bottom: 0;">
                         <li><strong>Detection Phase:</strong> {detection_phase}</li>
                         <li><strong>Attack Type:</strong> {attack_type}</li>
@@ -1282,7 +1282,7 @@ elif page == "User Behavior Analysis":
                 # Show the user blocking screen
                 st.markdown("""
                 <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9; margin-top: 20px;">
-                    <div style="background-color: #0d47a1; color: white; padding: 15px; border-radius: 5px; text-align: center; margin-bottom: 15px;">
+                    <div style="background-color: #c62828; color: white; padding: 15px; border-radius: 5px; text-align: center; margin-bottom: 15px;">
                         <h3 style="margin: 0;">⚠️ Security Alert: Suspicious Activity Detected</h3>
                     </div>
                     <div style="padding: 15px; background-color: white; border: 1px solid #ddd; border-radius: 5px; text-align: center;">
