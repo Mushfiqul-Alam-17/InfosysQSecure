@@ -173,19 +173,19 @@ class EnterpriseThreatDashboard:
         """Display the enterprise security posture score with animated lightning bolt effect"""
         score = st.session_state.security_posture
         
-        # Determine color based on score
+        # Determine color based on score - using blue theme as requested
         if score >= 80:
-            color = "#2e7d32"  # Green
+            color = "#1565C0"  # Blue
             status = "Strong"
-            gradient = "linear-gradient(135deg, #004d3b, #037a2a, #20a757)"
+            gradient = "linear-gradient(135deg, #051937, #004d7a, #008793)"
         elif score >= 60:
-            color = "#ff9800"  # Orange
+            color = "#0277BD"  # Lighter blue
             status = "Caution"
-            gradient = "linear-gradient(135deg, #a54a00, #dd7b14, #ffa726)"
+            gradient = "linear-gradient(135deg, #023475, #0277BD, #039BE5)"
         else:
-            color = "#c62828"  # Red
+            color = "#01579B"  # Deeper blue
             status = "At Risk"
-            gradient = "linear-gradient(135deg, #7f0000, #c62828, #e53935)"
+            gradient = "linear-gradient(135deg, #01579B, #0288D1, #03A9F4)"
             
         # Use streamlit components.html for more advanced visualization
         from streamlit.components.v1 import html
