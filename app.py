@@ -780,7 +780,7 @@ elif page == "User Behavior Analysis":
                                 <div style="border: 1px solid #ddd; border-radius: 5px; padding: 15px; background-color: white; margin-top: 15px;">
                                     <h4 style="margin-top: 0;">Statement for {statement['period']}</h4>
                                     <p>Checking Account (****4567)</p>
-                                    <p><strong>Beginning Balance:</strong> ${float(statement['balance'].replace('$', '').replace(',', '')) - 500:.2f}</p>
+                                    <p><strong>Beginning Balance:</strong> $2,741.87</p>
                                     <p><strong>Ending Balance:</strong> {statement['balance']}</p>
                                     <p><strong>Transactions:</strong> {statement['transactions']}</p>
                                     
